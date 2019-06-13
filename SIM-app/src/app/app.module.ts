@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { SubemissoesComponent } from './feedback/submissoes/submissoes.component';
 import { AlocacaoComponent } from './alocacao/alocacao.component';
 import { CorrecaoComponent } from './correcao/correcao.component';
 import { LoginComponent } from './login/login.component';
@@ -21,6 +22,7 @@ import { RelatorioComponent } from './relatório/relatorio.component';
   declarations: [
     AppComponent,
     FeedbackComponent,
+    SubemissoesComponent,
     AlocacaoComponent,
     CorrecaoComponent,
     LoginComponent,
@@ -46,6 +48,14 @@ import { RelatorioComponent } from './relatório/relatorio.component';
       {
         path: 'criterios',
         component: CriteriosComponent
+      },
+      {
+        path: 'feedback',
+        component: FeedbackComponent
+      },
+      {
+        path: 'submissoes',
+        component: SubemissoesComponent
       },
       {
         path: 'relatorio',
