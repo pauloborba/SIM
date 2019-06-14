@@ -33,3 +33,10 @@ Then O monitor "Ruy" aparece alocado na aula "25/03"
 Then O monitor "Daniel" aparece alocado na aula "25/03"
 Then O monitor "Davi" aparece alocado na aula "25/03"
 Then No menu "Cronograma" aparece uma mensagem de erro ao lado da aula "25/03"
+
+Scenario: Configurar quantidade de monitores em uma aula
+Given Estou na página "SIMApp"
+Given Estou no menu "Alteracao"
+Given A quantidade mínima de monitores da aula "25/03" é "4"
+When Eu tento alterar o número de monitores da aula "25/03" para "4"
+Then O número mínimo de monitores da aula "25/03" é alterado para "4"

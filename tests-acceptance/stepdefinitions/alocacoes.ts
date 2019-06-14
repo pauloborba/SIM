@@ -66,7 +66,24 @@ defineSupportCode(function ({ Given, When, Then }) {
         await $("input[name='monitoresAlocados']").sendKeys(", "+<string>name);
         await element(by.buttonText('Confirmar')).click();
     })
-    
+    When(/^Eu tento alterar o número de monitores da aula "([^\"]*)" para "([^\"]*)"$/, async (day,number) => {
+        await element(by.buttonText('Alteracao')).click();
+        await $("input[name='buscadia']").sendKeys(<string> day);
+        await element(by.buttonText('Buscar Aula')).click();
+        await $("input[name='monitoresNecessarios']").clear; 
+        await $("input[name='monitoresNecessarios']").sendKeys(<string> number);
+        await element(by.buttonText('Confirmar')).click();
+    })
+    Then(/^O número mínimo de monitores da aula "([^\"]*)" é alterado para "([^\"]*)"$/, async (day, number) => {
+        await element(by.buttonText('Alteracao')).click();
+        await $("input[name='buscadia']").sendKeys(<string> day);
+        await element(by.buttonText('Buscar Aula')).click();
+        var aulas : ElementArrayFinder = element.all(by.name('a.monitoresNecessarios'));
+        await aulas;
+        var aula = aulas.filter(element => element.column('a.monitoresNecessarios') === number);
+        await aula;
+        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    })
     Then(/^O monitor "([^\"]*)" aparece alocado na aula "([^\"]*)"$/, async (name, day) => {
         await element(by.buttonText('Cronograma')).click();
         var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
