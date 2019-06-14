@@ -75,7 +75,15 @@ app.delete('/deletarCriterio', function (req: express.Request, res: express.Resp
   }
 })
 
-
+app.delete('/deletarSubmissao', function (req: express.Request, res: express.Response){
+  var submissao = req.body;
+  var removido = cadastroSub.deletar(submissao);
+  if (removido) {
+    res.send({"success": "O criterio foi removido com sucesso"});
+  } else {
+    res.send({"failure": "O criterio foi não pôde ser removido"});
+  }
+})
 
 app.put('/aluno', function (req: express.Request, res: express.Response) {
   var aluno: Aluno = <Aluno> req.body;

@@ -23,7 +23,7 @@ export class SubemissoesComponent implements OnInit {
       this.count = !this.count
    }
 
-   /*avaliarSubmissao(submissao: Submissao): void {
+   avaliarSubmissao(submissao: Submissao): void {
     this.submissaoService.deletar(submissao)
       .then(ab => {
          if (ab) {
@@ -34,7 +34,7 @@ export class SubemissoesComponent implements OnInit {
          }
       })
       .catch(erro => alert(erro));
-  }  */
+  }  
 
   onMove(): void {
    this.start = false;

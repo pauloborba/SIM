@@ -26,10 +26,28 @@ export class CadastroSubmissao {
       z.code="";
       this.submissoes.push(z);
 
-    
+      console.log(this.submissoes[0].aluno)
+      console.log(this.submissoes[1].aluno)
+      console.log(this.submissoes[2].aluno)
+      
     }
 
-    
+    criar(submissao: Submissao): Submissao {
+      var result = null;
+        result = submissao;
+        this.submissoes.push(result);
+      return result;
+    }
+
+    deletar(submissao: Submissao): boolean {
+        var result: Submissao = this.submissoes.find(a => a.nomeSub == submissao.nomeSub);
+        var saida: boolean = false;
+        if (result){
+          this.submissoes.splice(this.submissoes.indexOf(result), 1);
+          saida = true;
+        } 
+        return saida;
+      }
 
       getSubmissoes(): Submissao[] {
         return this.submissoes;

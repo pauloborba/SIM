@@ -1,6 +1,16 @@
 <html (mousemove)="onMove()">
 
-
+<!--<table>
+<tr>
+    <td><label>Nome </label></td>
+    <td><input [(ngModel)]="submissao.nomeSub" ></td>
+    <td><button (click)="criarAluno(aluno)">Adicionar</button></td>
+</tr>
+<tr>
+    <td><label>Login </label></td>
+    <td><input [(ngModel)]="submissao.aluno" ></td>
+</tr>
+  </table>-->
 
 <table>
 <h1>Submissões</h1>
@@ -11,9 +21,25 @@
 <tr *ngFor="let a of submissoes" name = "sublist">
    <td name = "subnomelist">{{a.nomeSub}}</td>
    <td name = "nomelist">{{a.aluno}}</td>
+   <button name = "avaliar" (click)="mostrarSubmissao(a)">Avaliação</button>
 </tr>
 
 </table>
 
+<table *ngIf="count == 1">
+    <h1 name = "sub" >{{submissao.aluno}}, {{submissao.nomeSub}}</h1>
+    <pre>
+      LALs
+      asdassd
+      sjdfjsd
+      dsfojas
+    </pre>
+    <input name = "nota" [(ngModel)]="nota"><br>
+    <button name = "Avaliar" (click)="avaliarSubmissao(submissao)">Avaliar</button>
+  </table>
+  
+  <table *ngIf="count != 1 && start">
+    <h2 name = "message">O feedback da {{submissao.nomeSub}} com nota {{nota}} foi enviado para o email de {{submissao.aluno}}</h2>
+  </table>
 
 </html>

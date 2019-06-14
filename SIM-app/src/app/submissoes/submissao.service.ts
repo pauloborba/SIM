@@ -13,6 +13,19 @@ export class SubmissaoService {
 
 
 
+  deletar(submissao: Submissao): Promise<Submissao> {
+   
+  return this.http.delete(this.simURL + "/deletarSubmissao", {headers: this.headers, body: JSON.stringify(submissao)})
+    .toPromise()
+    .then(res => {
+      if (res.json().success) {return submissao;} else {return null;}
+    })
+    .catch(this.tratarErro);
+    
+  }
+
+
+
   getSubmissoes(): Promise<Submissao[]> {
     return this.http.get(this.simURL + "/submissoes")
              .toPromise()
