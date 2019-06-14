@@ -12,10 +12,12 @@ let sameName = ((elem, name) => elem.element(by.name('nomelist')).getText().then
 let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
 
 defineSupportCode(function ({ Given, When, Then }){
+
+    //Primeiro cenário
     Given(/^estou na página "([^\"]*)"$/, async(pagina)=> {
         await browser.get("http://localhost:4200/");
         await expect(browser.getTitle()).to.eventually.equal('SIMApp');
-        await $("a[name='alocacao']").click();
+        await $("a[name='"+pagina+"']").click();
     })
     Given(/^estou no menu de "([^\"]*)"$/, async (menu) => {
         await $("button[name='"+menu+"']").click();
@@ -44,7 +46,7 @@ defineSupportCode(function ({ Given, When, Then }){
         await $("button[name='cronograma']").click();
         var allaulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
         await allaulas;
-        var find_aula = allaulas.filter(element => element.column('a.data') === dia);
+        var find_aula = allaulas.filter(element => element.column('a.data') === data);
         await find_aula;
         await find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
         var find_mon = find_aula.all(by.repeater('let m of a.monitores'));
@@ -67,4 +69,36 @@ defineSupportCode(function ({ Given, When, Then }){
     Then(/^sou direcionado para o menu de "([^\"]*)"$/, async(name)=>{
         await $("button[name='cronograma']").click();
     });
+    
+    //Segundo cenário
+    Given(/^não vejo a aula "([^\"]*)" dia "([^\"]*)" na lista de "([^\"]*)"$/, async(data, dia, lista)=>{
+
+        var allaulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        await allaulas;
+        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        await find_aula;
+        await find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
+    });
+    When(/^eu cadastro a aula "([^\"]*)" dia "([^\"]*)"$/, async(dia, data)=>{
+        await $("button[name='formulario']").click();
+        await $("input[name='dataAula']").sendKeys(<string> data);
+        await $("input[name='diaAula']").sendKeys(<string> dia);
+        await $("input[name='tipoAula']").sendKeys("acompanhamento");
+    });
+    When(/^submeto ao sistema$/, async()=>{
+        await $("button[name='confirmar']").click();
+    });
+    Then(/^vejo a aula "([^\"]*)" dia "([^\"]*)" com um marcador "([^\"]*)" escrito "([^\"]*)"$/,async(dia,data,marcador,tipo)=>{
+        await $("button[name='cronograma']").click();
+        var allaulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        await allaulas;
+        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        await find_aula;
+        await find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        await find_aula.column('a.tipo').getText().then(e => e === tipo);
+    });
 });
+
+
+    
+
