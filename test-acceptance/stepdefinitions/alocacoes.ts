@@ -11,7 +11,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     })
 
     Given(/^o monitor "([^\"]*)" está disponível para "([^\"]*)"$/, async (nome, dia) => {
-        await $("button[name='alocacao']").click();
+        await $("a[name='alocacao']").click();
         await $("button[name='formulario']").click();
         await $("input[name='nomeMonitor']").sendKeys(<string> nome);
         await $("input[name='disponibilidadeDias']").sendKeys(<string> dia);
@@ -38,6 +38,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     })
     
     Given(/^o monitor "([^\"]*)" está alocado para a "([^\"]*)" dia "([^\"]*)"$/, async (nome, dia, data) => {
+        await $("a[name='alocacao']").click();
         await $("button[name='cronograma']").click();
         var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
         await aulas;
@@ -49,8 +50,31 @@ defineSupportCode(function ({ Given, When, Then }) {
         var alocado = findmonitor.filter(element => expect(element.getText()).then(e => e === nome));
         await alocado.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     });
+    
+    Given(/^o monitor "([^\"]*)" não está disponível$/, async (nome) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='disponibilidade']").click();
+        var monitores : ElementArrayFinder = element.all(by.repeater('let m of monitores'));
+        await monitores;
+        var monitor = monitores.filter(element => element.column('m.nome') === nome);
+        await monitor;
+        await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
+    });
+
+    When(/^eu preencho o campo de disponibilidades com "([^\"]*)" o campo de nome "([^\"]*)", restrições de data "([^\"]*)", campo é chefe "([^\"]*)" e submeto ao sistema$/, async (dia, nome, restricoes, chefe) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='formulario']").click();
+        await $("input[name='nomeMonitor']").sendKeys(<string> nome);
+        await $("input[name='disponibilidadeDias']").sendKeys(<string> dia);
+        await $("input[name='restricoes']").sendKeys(<string> restricoes);
+        if (<string> chefe == "Sim") {
+            await $("input[name='chefe']").click();
+        }
+        await $("button[name='adicionar']").click();
+    })
 
     When(/^eu retiro a disponibilidade de "([^\"]*)" na "([^\"]*)"$/, async (nome, dia) => {
+        await $("a[name='alocacao']").click();
         await $("button[name='alteracao']").click();
         await $("input[name='nomeMonitor']").sendKeys(<string>nome);
         await $("button[name='buscarMonitor']").click();
@@ -60,6 +84,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     })
 
     When(/^eu não vejo mais a disponibilidade de "([^\"]*)" na "([^\"]*)"$/, async (nome, dia) => {
+        await $("a[name='alocacao']").click();
         await $("button[name='disponibilidade']").click();
         var monitores : ElementArrayFinder = element.all(by.repeater('let m of monitores'));
         await monitores;
@@ -79,6 +104,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Then(/^o monitor "([^\"]*)" não está mais alocado na "([^\"]*)" dia "([^\"]*)"$/, async (nome, dia, data) => {
+        await $("a[name='alocacao']").click();
         await $("button[name='cronograma']").click();
         var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
         await aulas;
@@ -89,5 +115,32 @@ defineSupportCode(function ({ Given, When, Then }) {
         await findmonitor;
         var alocado = findmonitor.filter(element => expect(element.getText()).then(e => e === nome));
         await alocado.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
+    })
+
+    Then(/^o monitor "([^\"]*)" está disponível para "([^\"]*)"$/, async (nome, dia) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='formulario']").click();
+        await $("input[name='nomeMonitor']").sendKeys(<string> nome);
+        await $("input[name='disponibilidadeDias']").sendKeys(<string> dia);
+        await $("button[name='adicionar']").click();
+        
+        await $("button[name='disponibilidade']").click();
+
+        
+        var monitores : ElementArrayFinder = element.all(by.repeater('let m of monitores'));
+        await monitores;
+        var monitor = monitores.filter(element => element.column('m.nome') === nome);
+        await monitor;
+        await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        if(dia == 'segunda-feira')
+        await monitor.column('m.disponibilidade[0]').getText().then(e => e === "true");
+        if(dia == 'terca-feira')
+        await monitor.column('m.disponibilidade[1]').getText().then(e => e === "true");
+        if(dia == 'quarta-feira')
+        await monitor.column('m.disponibilidade[2]').getText().then(e => e === "true");
+        if(dia == 'quinta-feira')
+        await monitor.column('m.disponibilidade[3]').getText().then(e => e === "true");
+        if(dia == 'sexta-feira')
+        await monitor.column('m.disponibilidade[4]').getText().then(e => e === "true");
     })
 })
