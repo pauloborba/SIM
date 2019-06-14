@@ -19,3 +19,11 @@ When eu preencho o campo de disponibilidades com "segunda-feira quarta-feira" o 
 And submeto minhas respostas
 Then o monitor "Daniel" está disponível para "segunda-feira"
 And o monitor "Daniel" está disponível para "quarta-feira"
+
+Scenario: Configurar quantidade de monitores padrão para todas as aulas
+Given estou na página "SIMApp"
+And posso ver o valor "0" para monitores na aula do dia "25/03" do tipo "Acompanhamento"
+And posso ver o valor "1" para monitores na aula do dia "24/03" do tipo "Acompanhamento"
+When eu defino o valor "4" como padrão de monitores por aula
+Then eu vejo a aula do dia "25/03" com o valor "4" para monitores
+And eu vejo a aula do dia "24/03" com o valor "4" para monitores

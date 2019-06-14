@@ -50,6 +50,16 @@ defineSupportCode(function ({ Given, When, Then }) {
         var alocado = findmonitor.filter(element => expect(element.getText()).then(e => e === nome));
         await alocado.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     });
+
+    Given(/^posso ver o valor "(\d*)" para monitores na aula do dia "([^\"]*)" do tipo "([^\"]*)"$/, async (numMonitores, data, tipo) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        await aulas;
+        var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.tipo') === tipo && element.column('a.numAlocados') == numMonitores);
+        await aula;
+        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    });
     
     Given(/^o monitor "([^\"]*)" não está disponível$/, async (nome) => {
         await $("a[name='alocacao']").click();
@@ -60,6 +70,13 @@ defineSupportCode(function ({ Given, When, Then }) {
         await monitor;
         await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
     });
+
+    When(/^eu defino o valor "(\d*)" como padrão de monitores por aula$/, async (numMonitores) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        await $("input[name='monitoresAula']").sendKeys(<string> numMonitores);
+        await $("button[name='definirPadrao']").click();
+    })
 
     When(/^eu preencho o campo de disponibilidades com "([^\"]*)" o campo de nome "([^\"]*)", restrições de data "([^\"]*)", campo é chefe "([^\"]*)" e submeto ao sistema$/, async (dia, nome, restricoes, chefe) => {
         await $("a[name='alocacao']").click();
@@ -142,5 +159,15 @@ defineSupportCode(function ({ Given, When, Then }) {
         await monitor.column('m.disponibilidade[3]').getText().then(e => e === "true");
         if(dia == 'sexta-feira')
         await monitor.column('m.disponibilidade[4]').getText().then(e => e === "true");
+    })
+
+    Then(/^eu vejo a aula do dia "([^\"]*)" com o valor "([^\"]*)" para monitores$/, async (data, numMonitores) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        await aulas;
+        var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.numAlocados') === numMonitores);
+        await aula;
+        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     })
 })
