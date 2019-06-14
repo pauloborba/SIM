@@ -17,3 +17,10 @@ And não vejo a aula "segunda-feira" dia "25/03" na lista de "aulas"
 When eu cadastro a aula "segunda-feira" dia "25/03" 
 And submeto ao sistema
 Then vejo a aula "segunda-feira" dia "25/03" com um marcador "tipo de aula" escrito "acompanhamento"
+
+Scenario: Configuração de tipo de monitor para aula 
+Given estou na página "cronograma"
+And eu vejo a aula "segunda-feira" dia "25/03" na lista de "aulas"
+When eu seleciono a aula "segunda-feira" dia "25/03" 
+And marco a opção "apenas monitor chefe"
+Then vejo a aula "segunda-feira" dia "25/03" com um marcador "tipo de monitor" escrito "apenas monitor chefe"
