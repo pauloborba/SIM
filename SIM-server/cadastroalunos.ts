@@ -5,7 +5,7 @@ export class CadastroAlunos {
 
   criar(aluno: Aluno): Aluno {
     var result = null;
-    if (this.loginNaoCadastrado(aluno.login)) {
+    if (this.loginNaoCadastrado(aluno.login) && aluno.login !== "") {
       result = new Aluno();
       result.copyFrom(aluno);
       this.alunos.push(result);
