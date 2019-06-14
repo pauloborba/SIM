@@ -1,0 +1,24 @@
+<input name ='buscadia'><button name = 'buscar'>Buscar Aula</button>
+
+<table *ngIf="diaSelect != undefined">
+    <tr style="width:100%">
+        <th>Horário</th>
+        <th>Tipo</th>
+        <th>Data</th>
+        <th>Dia da Semana</th>
+        <th>Monitores necessários</th>
+        <th>Monitores alocados</th>
+        <th>Monitor Chefe/th>
+    </tr>
+    <tr>
+        <td><input value="{{diaSelect.hora}}" name="horario"></td>
+        <td><input value="{{diaSelect.tipo}}" name="tipo"></td>
+        <td><input value="{{diaSelect.data}}" name="data"></td>
+        <td><input value="{{diaSelect.diaSemana}}" name="dia"></td>
+        <td><input value="{{diaSelect.numAlocados}}" name="monitoresNecessarios"></td>
+        <td *ngIf="diaSelect.monitores.length > 0" ><input name="monitoresAlocados" *ngFor="let m of diaSelect.monitores" value="{{m.nome}}"></td>
+        <td *ngIf="diaSelect.monitores.length == 0"><input value="-" name="monitoresAlocados"></td>
+        <td><input name="chefe" value="{{diaSelect.soChefe}}"></td> 
+    </tr>
+    <tr><button name="confirmar">Confirmar</button></tr>
+</table>
