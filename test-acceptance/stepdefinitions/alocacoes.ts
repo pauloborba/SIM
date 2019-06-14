@@ -71,6 +71,33 @@ defineSupportCode(function ({ Given, When, Then }) {
         await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
     });
 
+    Given(/^posso ver o tipo "([^\"]*)" para a aula do dia "([^\"]*)"$/, async (tipo, data) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        await aulas;
+        var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.tipo') === tipo);
+        await aula;
+        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    });
+
+    Given(/^posso ver o valor "(\d*)" para monitores na aula do dia "([^\"]*)"$/, async (numMonitores, data) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        await aulas;
+        var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.numAlocados') === numMonitores);
+        await aula;
+        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    });
+
+    Given(/^o valor padrão para monitores nas aulas é "(\d*)"$/, async (numMonitores) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        var padrao = element(by.name('padraoMonitores'));
+        await expect(padrao.getText()).toBe(<string> numMonitores);
+    });
+
     When(/^eu defino o valor "(\d*)" como padrão de monitores por aula$/, async (numMonitores) => {
         await $("a[name='alocacao']").click();
         await $("button[name='cronograma']").click();
@@ -98,6 +125,15 @@ defineSupportCode(function ({ Given, When, Then }) {
         await expect($("table[name='tableMonitor']").isPresent()).toBeTruthy();
         await $("input[name='"+dia+"']").sendKeys("false");
         await $("button[name='confirmarMonitor']").click();
+    })
+
+    When(/^eu altero o campo tipo para "([^\"]*)" da aula do dia "([^\"]*)"$/, async (tipo, data) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='alteracao']").click();
+        await $("input[name='buscadia']").sendKeys(<string>data);
+        await $("button[name='buscar']").click();
+        await $("input[name='tipo']").sendKeys(<string> tipo);
+        await $("button[name='confirmar']").click();
     })
 
     When(/^eu não vejo mais a disponibilidade de "([^\"]*)" na "([^\"]*)"$/, async (nome, dia) => {
@@ -167,6 +203,16 @@ defineSupportCode(function ({ Given, When, Then }) {
         var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
         await aulas;
         var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.numAlocados') === numMonitores);
+        await aula;
+        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    })
+
+    Then(/^eu vejo a aula do dia "([^\"]*)" com o tipo "([^\"]*)"$/, async (data, tipo) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        await aulas;
+        var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.tipo') === tipo);
         await aula;
         await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     })
