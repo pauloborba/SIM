@@ -1,12 +1,14 @@
 import { defineSupportCode } from 'cucumber';
 import { browser, $, element, ElementArrayFinder, by } from 'protractor';
+
+
 let chai = require('chai').use(require('chai-as-promised'));
 let expect = chai.expect;
 
 let sleep = (ms => new Promise(resolve => setTimeout(resolve, ms)));
 
 let sameName = ((elem, name) => elem.element(by.name('nomelist')).getText().then(text => text === name));
-let sameSubName = ((elem, sub) => elem.element(by.name('nomelist')).getText().then(text => text === sub));
+let sameSubName = ((elem, sub) => elem.element(by.name('subnomelist')).getText().then(text => text === sub));
 
 let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
 
@@ -23,6 +25,23 @@ defineSupportCode(function ({ Given, When, Then }) {
         compareName = name.toString();
         compareSubName = sub.toString();
     });
+    Given(/^A submissão "([^\"]*)" de "([^\"]*)" está aberta$/, async (sub,name) => {
+        var allSubs : ElementArrayFinder = element.all(by.name('sublist'));
+        var  sameNameSub = allSubs.filter(elem => pAND(sameSubName(elem,sub),sameName(elem,name)))
+        await sameNameSub;
+        await sameNameSub.get(0).element(by.name('avaliar')).click();
+    });
+    Given(/^Eu estou na página de “Submissões”$/, async () => {
+        await browser.get("http://localhost:4200/");
+        await expect(browser.getTitle()).to.eventually.equal('SIMApp');
+        await $("a[name='feedback']").click();
+        await $("a[name='submissoes']").click();
+    })
+    When(/^Eu atribuo a nota "(\d*)" ao feedback e realizo a submissão$/, async (nota) => {
+        await $("input[name='nota']").sendKeys(<string> nota);
+        await element(by.buttonText('Avaliar')).click();
+    });
+
     When(/^eu vou para a tela de “Submissões”$/, async () => {
         await $("a[name='submissoes']").click();
     });
@@ -31,4 +50,10 @@ defineSupportCode(function ({ Given, When, Then }) {
             var allalunos : ElementArrayFinder = element.all(by.name('monitoreslist'));
             allalunos.filter(elem => pAND(sameSubName(elem,sub),sameName(elem,name))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     });
+
+    Then(/^Eu Vejo a mensagem "([^\"]*)"$/, async (message) => {
+        await expect(element(by.name("message")).getText()).to.eventually.equal(message);
+        
+    });
+
 })
