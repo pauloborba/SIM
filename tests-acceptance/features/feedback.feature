@@ -2,6 +2,7 @@ Feature: Como um monitor
          Eu quero acessar as submissões dos alunos
          Para que eu possa monitora-los devidamente
 
+
 Scenario: Visualizar questões do aluno puxadas do the huxley
 
 Given eu estou na tela de “Feedbacks”
@@ -22,3 +23,10 @@ When o campo “logging” com ""
 When Eu adiciono o aluno 
 Then eu vejo uma mensagem de erro 
 And o aluno "Arthur Castro" não é cadastrado
+
+Scenario: Status dos feedbacks de envio dos monitores 
+Given eu estou na tela de “Feedbacks”
+Given o monitor "Daniel" ainda não enviou seu feedback
+Given posso ver que o monitor "Daniel" esta marcado como "feedback não enviado"
+When o monitor "Daniel" envia seus feedbacks
+Then posso ver o monitor "Daniel" marcado como "feedback enviado"
