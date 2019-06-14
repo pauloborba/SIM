@@ -36,7 +36,12 @@ defineSupportCode(function ({ Given, When, Then }) {
         await expect(browser.getTitle()).to.eventually.equal('SIMApp');
         await $("a[name='feedback']").click();
         await $("a[name='submissoes']").click();
-    })
+    });
+    Given(/^eu estou na página de cadastro de notas$/, async () => {
+        await browser.get("http://localhost:4200/");
+        await expect(browser.getTitle()).to.eventually.equal('SIMApp');
+        await $("a[name='alunos']").click;
+    });
     When(/^Eu atribuo a nota "(\d*)" ao feedback e realizo a submissão$/, async (nota) => {
         await $("input[name='nota']").sendKeys(<string> nota);
         await element(by.buttonText('Avaliar')).click();
@@ -46,14 +51,39 @@ defineSupportCode(function ({ Given, When, Then }) {
         await $("a[name='submissoes']").click();
     });
 
+    When(/^preencho o campo “nome do aluno” com "([^\"]*)"$/, async (nome) => {
+         $("input[name='nomeAluno']").sendKeys(<string> nome);
+    });
+
+     When(/^o campo “logging” com "([^\"]*)"$/, async (login) => {
+         $("input[name='loginAluno']").sendKeys(<string> login);
+    });
+    When(/^Eu adiciono o aluno$/, async () => {
+         $("a[name='Adicionar']").click();
+    });
+
     Then(/^eu consigo ver a "([^\"]*)" do aluno "([^\"]*)" no topo da lista.$/, async (sub, name) => {
             var allalunos : ElementArrayFinder = element.all(by.name('monitoreslist'));
             allalunos.filter(elem => pAND(sameSubName(elem,sub),sameName(elem,name))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     });
 
     Then(/^Eu Vejo a mensagem "([^\"]*)"$/, async (message) => {
-        await expect(element(by.name("message")).getText()).to.eventually.equal(message);
-        
+         expect(element(by.name('message')).getText()).to.eventually.equal(message);
     });
 
+    Then(/^eu vejo uma mensagem de erro$/, async () => {
+        expect(element(by.name('erro')).getText()).to.eventually.equal("Login invalido");
+   });
+
+   Then(/^o aluno "([^\"]*)" não é cadastrado$/, async (name) => {
+    var allalunos : ElementArrayFinder = element.all(by.name('alunos'));
+    await allalunos;
+    await allalunos.filter(elem => sameName(elem,name)).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
+   });
+
 })
+
+
+    /*
+
+    */
