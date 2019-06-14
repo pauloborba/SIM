@@ -1,14 +1,18 @@
 import express = require('express');
 import bodyParser = require("body-parser");
 import { Aluno } from '../SIM-app/src/app/alunos/aluno';
+import { Submissao } from '../SIM-app/src/app/submissoes/submissao';
 import {CadastroAlunos} from './cadastroalunos';
 import {CadastroCriterios} from './cadastroCriterios';
+import { CadastroSubmissao } from './cadastroSub';
 
 import fs = require('fs');
 var app = express();
 
 var cadastro: CadastroAlunos = new CadastroAlunos();
 var cadastroCriterios: CadastroCriterios = new CadastroCriterios();
+
+var cadastroSub: CadastroSubmissao = new CadastroSubmissao();
 var allowCrossDomain = function(req: any, res: any, next: any) {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -25,6 +29,10 @@ app.get('/alunos', function (req, res) {
 
 app.get('/criterio', function (req, res) {
   res.send(cadastroCriterios.getCriterios());
+})
+
+app.get('/submissoes', function (req, res) {
+  res.send(cadastroSub.getSubmissoes());
 })
 
 app.post('/criterio', function (req: express.Request, res: express.Response) {
@@ -66,6 +74,8 @@ app.delete('/deletarCriterio', function (req: express.Request, res: express.Resp
     res.send({"failure": "O criterio foi não pôde ser removido"});
   }
 })
+
+
 
 app.put('/aluno', function (req: express.Request, res: express.Response) {
   var aluno: Aluno = <Aluno> req.body;

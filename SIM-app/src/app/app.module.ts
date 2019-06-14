@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { SubemissoesComponent } from './submissoes/submissoes.component';
 import { AlocacaoComponent } from './alocacao/alocacao.component';
 import { CorrecaoComponent } from './correcao/correcao.component';
 import { LoginComponent } from './login/login.component';
@@ -16,11 +17,13 @@ import { AlunoService } from './alunos/aluno.service';
 import { CriteriosComponent } from './criterios/criterios.component';
 import { CriteriosService } from './criterios/criterios.service';
 import { RelatorioComponent } from './relatório/relatorio.component';
+import { SubmissaoService } from './submissoes/submissao.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     FeedbackComponent,
+    SubemissoesComponent,
     AlocacaoComponent,
     CorrecaoComponent,
     LoginComponent,
@@ -52,12 +55,16 @@ import { RelatorioComponent } from './relatório/relatorio.component';
         component: FeedbackComponent
       },
       {
+        path: 'submissoes',
+        component: SubemissoesComponent
+      },
+      {
         path: 'relatorio',
         component: RelatorioComponent
       }
     ])
   ],
-  providers: [AlunoService,CriteriosService],
+  providers: [AlunoService,CriteriosService,SubmissaoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

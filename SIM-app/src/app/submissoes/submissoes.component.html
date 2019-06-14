@@ -1,0 +1,19 @@
+<html (mousemove)="onMove()">
+
+
+
+<table>
+<h1>Submissões</h1>
+<tr *ngIf="submissoes.length == 0">
+   <th>não há Submissões pendentes</th>
+   
+</tr>
+<tr *ngFor="let a of submissoes" name = "sublist">
+   <td name = "subnomelist">{{a.nomeSub}}</td>
+   <td name = "nomelist">{{a.aluno}}</td>
+</tr>
+
+</table>
+
+
+</html>
