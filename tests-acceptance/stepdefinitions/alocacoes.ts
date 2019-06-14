@@ -48,10 +48,18 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     When(/^Eu solicito a alocação de monitores$/, async () => {
+        await element(by.buttonText('Cronograma')).click();
         await element(by.buttonText('Alocar Monitores')).click();
     })
+    When(/^Eu edito os monitores de "([^\"]*)", adicionando o monitor "([^\"]*)"$/, async (day,name) => {
+        await element(by.buttonText('Alteracao')).click();
+        await $("input[name='buscadia']").sendKeys(<string> day);
+        await element(by.buttonText('Buscar Aula')).click();
+        await $("input[name='monitoresAlocados']").sendKeys(", "+<string>name);
+    })
+    
     Then(/^O monitor "([^\"]*)" aparece alocado na aula "([^\"]*)"$/, async (name, day) => {
-        await $("button[name='cronograma']").click();
+        await element(by.buttonText('Cronograma')).click();
         var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
         await aulas;
         var aula = aulas.filter(element => element.column('a.data') === day);
