@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Monitor} from '../monitor'
+import {MonitorService} from '../monitor.service'
 @Component({
   selector: 'app-root',
   templateUrl: './disponibilidade.component.html',
@@ -7,12 +8,14 @@ import {Monitor} from '../monitor'
 })
 export class DisponibilidadeComponent implements OnInit {
   
-    constructor() { }
+    constructor(private monitorService: MonitorService) { }
 
-    monitores: Monitor[];
+    monitores: Monitor[] = [];
     
     ngOnInit() {
-      this.monitores = [];
+      this.monitorService.getMonitores()
+      .then(as => this.monitores = as)
+      .catch(erro => alert(erro));
     }
 
 }

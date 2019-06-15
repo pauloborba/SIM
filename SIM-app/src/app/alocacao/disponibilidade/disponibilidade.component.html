@@ -21,9 +21,10 @@
             <td name="quinta-feira">{{m.disponibilidade[3]}}</td>
             <td name="sexta-feira">{{m.disponibilidade[4]}}</td>
             <td *ngFor="let r of m.restricoes" name="restricoes" >{{r}} </td>
-            <td *ngIf="m.restricoes.length == 0">-</td>
+            <td *ngIf="m.restricoes == 0">  -</td>
             <td name="alocacoes">{{m.alocacoes}}</td>
             <td name="chefe">{{m.chefe}}</td>
         </tr>
     </tbody>
+    <h5 *ngIf = "erroAloc"></h5>
 </table>
