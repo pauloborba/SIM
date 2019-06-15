@@ -1,5 +1,5 @@
-import { CadastroSubmissao } from '../../cadastroSub';
-import { Submissao } from '../../../SIM-app/src/app/submissoes/submissao'
+import { CadastroSubmissao } from '../cadastroSub';
+import { Submissao } from '../../SIM-app/src/app/submissoes/submissao'
  
 
 describe("O cadastro de alunos", () => {
