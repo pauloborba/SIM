@@ -17,6 +17,13 @@ describe("O servidor", () => {
         expect(body).toContain('[{"ID":0,"nomeSub":"Submissão 5","aluno":"Matheus","code":""},{"ID":1,"nomeSub":"Submissão 4","aluno":"Matheus","code":""},{"ID":2,"nomeSub":"Submissão 5","aluno":"Erica","code":""}]');
       });
   })
+  
+  it("consegue deletar do sistema submissões já avaliadas", () => {
+    return request.delete(base_url + "deletarSubmissao", {"json":{"ID":0,"nomeSub":"Submissão 5","aluno":"Matheus","code":""}}).then(body => {
+      expect(body).not.toContain('{"ID":0,"nomeSub":"Submissão 5","aluno":"Matheus","code":""}');
+    });
+})
+
 
 
 })
