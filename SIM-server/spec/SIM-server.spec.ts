@@ -25,5 +25,17 @@ describe("O servidor", () => {
   });
 
 
+  it("não cadastra aula no mesmo dia", () => {
+    return request.post(base_url + "aula", {"json":{"hora": "17:00", "tipo": "acompanhamento", "data": "12/07", "diaSemana": "segunda-feira", "numALocados": "2", "monitores": "['Daniel', 'Ruy']", "soChefe":  "false"}}).then(body => {
+         expect(body).toEqual({success: "O aluno foi cadastrado com sucesso"});
+         return request.post(base_url + "aula", {"json":{"hora": "17:00", "tipo": "acompanhamento", "data": "12/07", "diaSemana": "segunda-feira", "numALocados": "32", "monitores": "['Berg', 'Arthur']", "soChefe":  "true"}}).then(body => {
+             expect(body).toEqual({failure: "O aluno não pode ser cadastrado"});
+             return request.get(base_url + "aulas").then(body => {
+                 expect(body).toContain('{"hora": "17:00", "tipo": "acompanhamento", "data": "12/07", "diaSemana": "segunda-feira", "numALocados": "2", "monitores": "["Daniel", "Ruy"]", "soChefe":  "false"}');
+                 expect(body).not.toContain('{"hora": "17:00", "tipo": "acompanhamento", "data": "12/07", "diaSemana": "segunda-feira", "numALocados": "32", "monitores": "["Berg", "Arthur"]", "soChefe":  "true"}');
+             });
+         });
+     });
+  });
 
 })
