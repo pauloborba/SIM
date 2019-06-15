@@ -8,6 +8,7 @@ import {FormularioComponent} from './formulario/formulario.component'
 import {AlteracaoComponent} from './alteracao/alteracao.component'
 import { MonitorService } from './monitor.service';
 import { FormsModule } from "@angular/forms";
+import { AulaService } from './aula.service';
 
 
 @NgModule({
@@ -23,6 +24,6 @@ import { FormsModule } from "@angular/forms";
        FormularioComponent,
        AlteracaoComponent
     ],
-    providers: [MonitorService],
+    providers: [MonitorService, AulaService],
 })
 export class AlocacaoModule {}
