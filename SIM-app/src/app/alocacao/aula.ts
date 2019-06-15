@@ -10,5 +10,17 @@ export class Aula {
     monitores: Monitor[];
     soChefe: boolean;
 
-    constructor() { }
+    constructor() {
+        this.clean();
+    }
+
+    clean() : void {
+        this.hora = "";
+        this.tipo = "";
+        this.data = "";
+        this.diaSemana = "";
+        this.numAlocados = 0;
+        this.monitores = [];
+        this.soChefe = false;
+    }
 }
