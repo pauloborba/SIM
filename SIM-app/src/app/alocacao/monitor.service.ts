@@ -16,7 +16,7 @@ export class MonitorService {
         return this.http.post(this.simURL + "/monitor",JSON.stringify(monitor), {headers: this.headers})
                .toPromise()
                .then(res => {
-                  if (res.json().success) {return monitor;} else {return null;}
+                  if (res.json().success) {return monitor;} else {alert(res.json().failure); return null;}
                })
                .catch(this.tratarErro);
     }

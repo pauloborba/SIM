@@ -9,8 +9,9 @@ export class DisponibilidadeComponent implements OnInit {
 
   constructor() { }
   
+  monitores: Monitor[];
   ngOnInit() {
-    
+    this.monitores = [];
   }
 
 }
