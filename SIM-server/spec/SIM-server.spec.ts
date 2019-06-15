@@ -24,4 +24,17 @@ describe("O servidor", () => {
     });
   });
 
+  it("Atualização de aula", () => {
+    return request.post(base_url + "aula", {"json":{"hora":"8:00", "tipo":"", "data":"25/03","diaSemana": "segunda-feira", "numAlocados":"2" , "monitores":"[Ruy,Daniel]", "soChefe":"false"}}).then(body => {
+      expect(body).toEqual({success: "A aula foi cadastrada com sucesso"});
+      return request.put(base_url + "aula", {"json":{"hora":"9:00", "tipo":"", "data":"25/03","diaSemana": "segunda-feira", "numAlocados":"2" , "monitores":"[Ruy,Daniel]", "soChefe":"false"}}).then(body => {
+          expect(body).toEqual({"success": "A aula foi atualizada com sucesso"});
+          return request.get(base_url + "aulas").then(body => {
+              expect(body).toContain('{"hora":"9:00", "tipo":"", "data":"25/03","diaSemana": "segunda-feira", "numAlocados":"2" , "monitores":"[Ruy,Daniel]", "soChefe":"false"}');
+              expect(body).not.toContain('{"hora":"8:00", "tipo":"", "data":"25/03","diaSemana": "segunda-feira", "numAlocados":"2" , "monitores":"[Ruy,Daniel]", "soChefe":"false"}');
+          });
+      });
+    });
+  });
+
 })
