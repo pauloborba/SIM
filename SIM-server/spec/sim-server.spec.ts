@@ -24,6 +24,11 @@ describe("O servidor", () => {
     });
 })
 
+  it("não cadastra alunos sem login the huxley",()=>{
+    return request.post(base_url + "aluno", {"json":{"nome": "Rodrigo", "login" : ""}}).then(body => {
+      expect(body).toEqual({ failure: "O aluno não pode ser cadastrado"});
+    });
+  })
 
 
 })
