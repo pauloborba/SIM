@@ -79,9 +79,9 @@ app.delete('/deletarSubmissao', function (req: express.Request, res: express.Res
   var submissao = req.body;
   var removido = cadastroSub.deletar(submissao);
   if (removido) {
-    res.send({"success": "O criterio foi removido com sucesso"});
+    res.send({"success": "A submissão foi removida com sucesso"});
   } else {
-    res.send({"failure": "O criterio foi não pôde ser removido"});
+    res.send({"failure": "A submissão foi não pôde ser removida"});
   }
 })
 
@@ -95,8 +95,12 @@ app.put('/aluno', function (req: express.Request, res: express.Response) {
   }
 })
 
-app.listen(3000, function () {
+var server = app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
 
-export { app }
+function closeServer(): void {
+   server.close();
+}
+
+export { app, server, closeServer }

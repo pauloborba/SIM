@@ -1,26 +1,26 @@
 "use strict";
-exports.__esModule = true;
-var Submissao = /** @class */ (function () {
-    function Submissao() {
+Object.defineProperty(exports, "__esModule", { value: true });
+class Submissao {
+    constructor() {
         this.clean();
     }
-    Submissao.prototype.clean = function () {
+    clean() {
         this.ID = -1;
         this.nomeSub = "";
         this.aluno = "";
         this.code = "";
-    };
-    Submissao.prototype.clone = function () {
+    }
+    clone() {
         var submissao = new Submissao();
         submissao.copyFrom(this);
         return submissao;
-    };
-    Submissao.prototype.copyFrom = function (from) {
+    }
+    copyFrom(from) {
         this.ID = from.ID;
         this.nomeSub = from.nomeSub;
         this.aluno = from.aluno;
         this.code = from.code;
-    };
-    return Submissao;
-}());
+    }
+}
 exports.Submissao = Submissao;
+//# sourceMappingURL=submissao.js.map
