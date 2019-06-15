@@ -9,7 +9,18 @@ export class CadastroAulas {
   }
 
   atualizar(aula: Aula) : Aula {
-    return new Aula();
+    var result: Aula = new Aula();
+    result = this.aulas.find(a => a.data == aula.data);
+    if (result) {
+      result.hora = aula.hora;
+      result.tipo = aula.tipo;
+      result.data = aula.data;
+      result.diaSemana = aula.diaSemana;
+      result.numAlocados = aula.numAlocados;
+      result.monitores = aula.monitores;
+      result.soChefe = aula.soChefe;
+    }
+    return result;
   }
   
   getAulas() : Aula[] {

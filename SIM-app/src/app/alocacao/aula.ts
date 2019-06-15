@@ -22,5 +22,18 @@ export class Aula {
         this.numAlocados = 0;
         this.monitores = [];
         this.soChefe = false;
+        
     }
+
+    copyFrom(from: Aula): void {
+        this.hora = from.hora;
+        this.tipo = from.tipo;
+        this.data = from.data;
+        this.diaSemana = from.diaSemana;
+        this.numAlocados = from.numAlocados;
+        this.monitores = from.monitores;
+        this.soChefe = from.soChefe;
+    }
+
+  
 }
