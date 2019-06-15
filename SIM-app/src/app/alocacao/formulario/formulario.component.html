@@ -1,10 +1,46 @@
-<h1>Monitor: <input type="text" name="nomeMonitor"></h1>
+<h1>Monitor: <input type="text" name="nomeMonitor" ></h1>
 <ul> Disponibilidades:
-    <li><input type="text" name ="disponibilidadeDias"></li>
+    <table>
+        <tr>
+            <th>Segunda-feira</th>
+            <th>Terca-feira</th>
+            <th>Quarta-feira</th>
+            <th>Quinta-feira</th>
+            <th>Sexta-feira</th>
+        </tr>
+        <tr>
+            <td><input type="checkbox"  name="segunda-feira"></td>
+            <td><input type="checkbox"  name="terca-feira"></td>
+            <td><input type="checkbox"  name="quarta-feira"></td>
+            <td><input type="checkbox"  name="quinta-feira"></td>
+            <td><input type="checkbox"  name="sexta-feira"></td>
+        </tr>
+    </table>
 </ul>
 <ul> Restrições:
     <li><input type="text" name="restricoes"></li>
 </ul>
-<input type="checkbox" name="chefe">
+<input type="checkbox" name="chefe" >
 <label for="true">Chefe</label><br>
-<button name="adicionar">Adicionar</button>
+<button name="adicionar" >Adicionar</button>
+
+<!--******************************************************************************************************************-->
+
+
+<h1>Aula</h1>
+<br>
+Hora da aula: <input type="text" name="horaAula" [(ngModel)]="aula.hora">
+<br>
+Tipo: <input type="text" name="tipoAula" [(ngModel)]="aula.tipo">
+<br>
+Data: <input type="text" name="dataAula" [(ngModel)]="aula.data">
+<br>
+Dia da semana: <input type="text" name="diaAula" [(ngModel)]="aula.diaSemana">
+<br>
+Num de alocados: <input type="text" name="numAula" [(ngModel)]="aula.numAlocados">
+<br>
+Monitores: <input type="text" name="monitoresAula" [(ngModel)]="monitoresStr">
+<br>
+Apenas chefe?: <input type="checkbox" name="chefeAula" [(ngModel)]="aula.soChefe">
+<br>
+<button name="adicionarAula" (click)="criarAula()">Adicionar Aula</button>

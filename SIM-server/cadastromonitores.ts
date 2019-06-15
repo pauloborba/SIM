@@ -12,7 +12,22 @@ export class CadastroMonitores {
   }
 
   getMonitores() : Monitor[] {
-    return this.monitores;
+    return [{
+        nome: "Daniel",
+        disponibilidade: [true, true, false, false, false],
+        restricoes: [],
+        alocacoes: 1,
+        chefe: false,
+        clean: undefined
+    },
+    {
+      nome: "Berg",
+      disponibilidade: [true, true, false, false, false],
+      restricoes: [],
+      alocacoes: 1,
+      chefe: true,
+      clean: undefined
+    }]
   }
 
 }

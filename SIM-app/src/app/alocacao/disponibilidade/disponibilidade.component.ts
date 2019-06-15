@@ -7,10 +7,12 @@ import {Monitor} from '../monitor'
 })
 export class DisponibilidadeComponent implements OnInit {
   
-  constructor() { }
-  
-  ngOnInit() {
+    constructor() { }
+
+    monitores: Monitor[];
     
-  }
+    ngOnInit() {
+      this.monitores = [];
+    }
 
 }

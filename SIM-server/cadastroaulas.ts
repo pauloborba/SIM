@@ -4,7 +4,8 @@ export class CadastroAulas {
   aulas: Aula[] = [];
 
   criar(aula: Aula): Aula {
-    return new Aula();
+     this.aulas.push(aula);
+     return aula;
   }
 
   atualizar(aula: Aula) : Aula {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Aula } from '../aula';
+import {AulaService} from '../aula.service'
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,14 @@ import { Aula } from '../aula';
   styleUrls: ['./cronograma.component.css']
 })
 export class CronogramaComponent implements OnInit {
+  aulas: Aula[];
 
-  constructor() { }
+  constructor(private aulaService:AulaService) { }
   
   ngOnInit() {
-    
+    this.aulaService.getAulas()
+    .then(as => this.aulas = as)
+    .catch(erro => alert(erro));
   }
 
 }

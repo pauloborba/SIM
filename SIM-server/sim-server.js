@@ -2,13 +2,12 @@
 exports.__esModule = true;
 var express = require("express");
 var bodyParser = require("body-parser");
-var cadastroalunos_1 = require("./cadastroalunos");
-var cadastrosubs_1 = require("./cadastrosubs");
-var fs = require("fs");
+var cadastroaulas_1 = require("./cadastroaulas");
+var cadastromonitores_1 = require("./cadastromonitores");
 var app = express();
 exports.app = app;
-var cadastro = new cadastroalunos_1.CadastroAlunos();
-var cad = new cadastrosubs_1.CadastroSubs();
+var aulas = new cadastroaulas_1.CadastroAulas();
+var monitores = new cadastromonitores_1.CadastroMonitores();
 //var mailer : Mailer = new Mailer();
 var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
@@ -18,66 +17,55 @@ var allowCrossDomain = function (req, res, next) {
 };
 app.use(allowCrossDomain);
 app.use(bodyParser.json());
-app.get('/alunos', function (req, res) {
-    res.send(JSON.stringify(cadastro.getAlunos()));
+app.get('/aulas', function (req, res) {
+    res.send(JSON.stringify(aulas.getAulas()));
 });
-app.get('/subs', function (req, res) {
-    res.send(JSON.stringify(cad.getSubs()));
+app.get('/monitores', function (req, res) {
+    res.send(JSON.stringify(monitores.getMonitores()));
 });
-app.post('/aluno', function (req, res) {
-    var aluno = req.body;
-    aluno = cadastro.criar(aluno);
-    if (aluno) {
-        res.send({ "success": "O aluno foi cadastrado com sucesso" });
+app.post('/aula', function (req, res) {
+    var aula = req.body;
+    aula = aulas.criar(aula);
+    if (aula) {
+        res.send({ "success": "A aula foi cadastrada com sucesso" });
     }
     else {
-        res.send({ "failure": "O aluno não pode ser cadastrado" });
+        res.send({ "failure": "A aula não pode ser cadastrada" });
     }
 });
-app.post('/sub', function (req, res) {
-    var sub = req.body;
-    sub = cad.criar(sub);
-    if (sub) {
-        res.send({ "success": "Submissão criada com sucesso" });
+app.post('/monitor', function (req, res) {
+    var monitor = req.body;
+    monitor = monitores.criar(monitor);
+    if (monitor) {
+        res.send({ "success": "O monitor foi cadastrado com sucesso" });
     }
     else {
-        res.send({ "failure": "A submissão não pode ser criada" });
+        res.send({ "failure": "O monitor não pode ser cadastrado" });
     }
 });
-app.post('/sendemail', function (req, res) {
-    var nodemailer = require('nodemailer');
-    var config = JSON.parse(fs.readFileSync("config.json").toString("utf-8"));
-    var transporter = nodemailer.createTransport(config);
-    transporter.sendMail(req.body, function (error, info) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log('Email enviado: ' + info.response);
-        }
-    });
-    res.send({ "success": "email enviado" });
-});
-app.put('/aluno', function (req, res) {
-    var aluno = req.body;
-    aluno = cadastro.atualizar(aluno);
-    if (aluno) {
-        res.send({ "success": "O aluno foi atualizado com sucesso" });
+app.put('/aula', function (req, res) {
+    var aula = req.body;
+    aula = aulas.atualizar(aula);
+    if (aula) {
+        res.send({ "success": "A aula foi atualizada com sucesso" });
     }
     else {
-        res.send({ "failure": "O aluno não pode ser atualizado" });
+        res.send({ "failure": "A aula não pode ser atualizada" });
     }
 });
-app.put('/sub', function (req, res) {
-    var sub = req.body;
-    sub = cad.atualizar(sub);
-    if (sub) {
-        res.send({ "success": "A submissão foi atualizada com sucesso" });
+app.put('/monitor', function (req, res) {
+    var monitor = req.body;
+    monitor = monitores.atualizar(monitor);
+    if (monitor) {
+        res.send({ "success": "O monitor foi atualizado com sucesso" });
     }
     else {
-        res.send({ "failure": "A submissão não pode ser atualizada" });
+        res.send({ "failure": "O monitor não pode ser atualizado" });
     }
 });
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-});
+var server = app.listen(3000, function () { console.log('Example app listening on port 3000!'); });
+exports.server = server;
+function closeServer() {
+    server.close();
+}
+exports.closeServer = closeServer;
