@@ -23,7 +23,7 @@
     <tr><button name="confirmar" (click)="atualizarAula()">Confirmar</button></tr>
 </table>
 
-<input name="nomeMonitor"><button name="buscarMonitor">Buscar Monitor</button>
+<input name="nomeMonitor" [(ngModel)]="nomeMonitor"><button name="buscarMonitor" (click)="buscarMonitor()">Buscar Monitor</button>
 <table *ngIf="monitorSelect != undefined">
     <tr style="width:100%">
             <th><label>Nome </label></th>
@@ -37,16 +37,15 @@
             <th><label>Chefe</label></th>
     </tr>
     <tr>
-        <td><input name="nome" value="{{monitorSelect.nome}}"></td>
-        <td><input name="segunda-feira" value="{{monitorSelect.disponibilidade[0]}}"></td>
-        <td><input name="terca-feira" value="{{monitorSelect.disponibilidade[1]}}"></td>
-        <td><input name="quarta-feira" value="{{monitorSelect.disponibilidade[2]}}"></td>
-        <td><input name="quinta-feira" value="{{monitorSelect.disponibilidade[3]}}"></td>
-        <td><input name="sexta-feira" value="{{monitorSelect.disponibilidade[4]}}"></td>
-        <td *ngIf="monitorSelect.restricoes.length > 0"><input *ngFor="let r of monitorSelect.restricoes" name="restricoes" value="{{r}}"></td>
-        <td *ngIf="monitorSelect.restricoes.length == 0"><input name="restricoes" value="-"></td>
-        <td><input name="alocacoes" value="{{monitorSelect.alocacoes}}"></td>
-        <td><input name="chefe" value="{{monitorSelect.chefe}}"></td>
+        <td><input name="nome" [(ngModel)]="monitorSelect.nome"></td>
+        <td><input name="segunda-feira" [(ngModel)]="monitorSelect.disponibilidade[0]" type="checkbox"></td>
+        <td><input name="terca-feira" [(ngModel)]="monitorSelect.disponibilidade[1]" type="checkbox"></td>
+        <td><input name="quarta-feira" [(ngModel)]="monitorSelect.disponibilidade[2]" type="checkbox"></td>
+        <td><input name="quinta-feira" [(ngModel)]="monitorSelect.disponibilidade[3]" type="checkbox"></td>
+        <td><input name="sexta-feira" [(ngModel)]="monitorSelect.disponibilidade[4]" type="checkbox"></td>
+        <td><input name="restricoes" [(ngModel)]="monitorSelect.restricoes"></td>
+        <td><input name="alocacoes" [(ngModel)]="monitorSelect.alocacoes"></td>
+        <td><input name="chefe" [(ngModel)]="monitorSelect.chefe" type="checkbox"></td>
     </tr>
-    <tr><button name="confirmarMonitor">Confirmar Monitor</button></tr>
+    <tr><button name="confirmarMonitor" (click)="atualizarMonitor()">Confirmar Monitor</button></tr>
 </table>
