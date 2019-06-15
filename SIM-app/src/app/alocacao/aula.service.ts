@@ -26,6 +26,22 @@ export class AulaService {
          .catch(this.tratarErro);
   }
 
+  atualizarPadraoMonitor(padrao: number): Promise<number> {
+    return this.http.put(this.simURL + "/attPadraoMonitores",JSON.stringify(padrao), {headers: this.headers})
+         .toPromise()
+         .then(res => {
+            if (res.json().success) {return padrao;} else {return null;}
+         })
+         .catch(this.tratarErro);
+  }
+
+  getNumPadraoMonitores() : Promise<number>{
+    return this.http.get(this.simURL + "/padraoMonitores")
+            .toPromise()
+            .then(res => res.json() as number)
+            .catch(this.tratarErro);
+  }
+
   getAulas() : Promise<Aula[]>{
     return this.http.get(this.simURL + "/aulas")
             .toPromise()

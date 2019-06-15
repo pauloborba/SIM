@@ -1,5 +1,25 @@
 import { Aula } from '../SIM-app/src/app/alocacao/aula';
 
+var copyFrom = function(from: Aula): void {
+  this.hora = from.hora;
+  this.tipo = from.tipo;
+  this.data = from.data;
+  this.diaSemana = from.diaSemana;
+  this.numAlocados = from.numAlocados;
+  this.monitores = from.monitores;
+  this.soChefe = from.soChefe;
+}
+
+var clean = function() : void {
+  this.hora = "";
+  this.tipo = "";
+  this.data = "";
+  this.diaSemana = "";
+  this.numAlocados = 0;
+  this.monitores = [];
+  this.soChefe = false;
+}
+
 export class CadastroAulas {
   aulas: Aula[] = [
     {
@@ -10,7 +30,8 @@ export class CadastroAulas {
       numAlocados: 0,
       monitores: [],
       soChefe: false,
-      clean: undefined
+      clean: clean,
+      copyFrom: copyFrom
     },
     {
       hora: "08:00",
@@ -20,27 +41,31 @@ export class CadastroAulas {
       numAlocados: 1,
       monitores: [],
       soChefe: false,
-      clean: undefined
+      clean: clean,
+      copyFrom: copyFrom
     }
   ];
+  padraoMonitores: number = 4;
 
   criar(aula: Aula): Aula {
     return new Aula();
   }
 
   atualizar(aula: Aula) : Aula {
-    var result = null;
-    for(var i = 0; i < this.aulas.length; i++) {
-      if(this.aulas[i].data == aula.data) {
-        this.aulas[i] = aula;
-        result = aula;
-        break;
-      }
-    }
+    var result : Aula = this.aulas.find(a => a.data == aula.data);
+    if (result) result.copyFrom(aula);
     return result;
+  }
+
+  atualizarPadraoMonitores(padrao: number) : number{
+    return this.padraoMonitores = padrao;
   }
   
   getAulas() : Aula[] {
     return this.aulas;
+  }
+
+  getPadraoMonitores() : number{
+    return this.padraoMonitores;
   }
 }

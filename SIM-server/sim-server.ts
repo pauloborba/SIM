@@ -28,6 +28,9 @@ app.get('/aulas', function(req, res){
 app.get('/monitores', function(req, res){
   res.send(JSON.stringify(monitores.getMonitores()));
 })
+app.get('/padraoMonitores', function(req, res){
+  res.send(JSON.stringify(aulas.getPadraoMonitores()));
+})
 
 
 app.post('/aula', function(req: express.Request, res: express.Response){
@@ -69,6 +72,17 @@ app.put('/monitor', function (req: express.Request, res: express.Response) {
     res.send({"failure": "O monitor não pode ser atualizado"});
   }
 })
+
+app.put('/attPadraoMonitores', function (req: express.Request, res: express.Response) {
+  var padrao: number = <number> req.body;
+  padrao = aulas.atualizarPadraoMonitores(padrao);
+  if (padrao) {
+    res.send({"success": "O numero padrao foi atualizado com sucesso"});
+  } else {
+    res.send({"failure": "O numero padrao não pode ser atualizado"});
+  }
+})
+
 
 var server = app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
