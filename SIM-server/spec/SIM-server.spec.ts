@@ -24,4 +24,17 @@ describe("O servidor", () => {
     )
   });
 
+  it("não cadastra monitor com nome duplicado", () => {
+    return request.post(base_url + "monitor", {"json":{"nome": "Daniel", "disponibilidade":"[false,false,false,false,true]", "restricoes":"[]", "alocacoes":"0", "chefe":"false"}}).then(body => {
+         expect(body).toEqual({success: "O monitor foi cadastrado com sucesso"});
+         return request.post(base_url + "monitor", {"json":{"nome": "Daniel", "disponibilidade":"[true,false,true,false,true]", "restricoes":"[]", "alocacoes":"2", "chefe":"false"}}).then(body => {
+             expect(body).toEqual({failure: "O monitor não pode ser cadastrado"});
+             return request.get(base_url + "monitores").then(body => {
+                 expect(body).toContain('{"nome": "Daniel", "disponibilidade":"[false,false,false,false,true]", "restricoes":"[]", "alocacoes":"0", "chefe":"false"}');
+                 expect(body).not.toContain('{"nome": "Daniel", "disponibilidade":"[true,false,true,false,true]", "restricoes":"[]", "alocacoes":"2", "chefe":"false"}');
+             });
+         });
+     });
+  });
+
 })
