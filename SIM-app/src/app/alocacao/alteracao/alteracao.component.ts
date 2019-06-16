@@ -81,9 +81,9 @@ export class AlteracaoComponent implements OnInit {
 
   getMonitores() : Monitor[]{
     var result = [];
-    if (this.monitoresAlocados.indexOf(" ") < 0) {
-      result.push(this.monitores.find(e => e.nome == this.monitoresAlocados));
-    } else {
+    if(this.monitoresAlocados == undefined || this.monitoresAlocados == "")
+      return result;
+    else {
       var names = this.monitoresAlocados.split(" ");
       names.forEach(nome => {
         result.push(this.monitores.find(e => e.nome == nome));
@@ -133,7 +133,7 @@ export class AlteracaoComponent implements OnInit {
     .catch(erro => alert(erro));
     this.aulas.forEach(aula => {
       if(!monitor.disponibilidade[this.getDia(aula.diaSemana)] && this.monitorAlocado(monitor, aula)) {
-        aula.monitores.splice(aula.monitores.findIndex(m => m.nome == monitor.nome));
+        aula.monitores.splice(aula.monitores.findIndex(m => m.nome == monitor.nome), 1);
         this.aulaService.atualizar(aula)
         .then(a => {
           if(a) {

@@ -1,4 +1,5 @@
 import { Aula } from '../SIM-app/src/app/alocacao/aula';
+import { Monitor } from '../SIM-app/src/app/alocacao/monitor';
 
 var copyFrom = function(from: Aula): void {
   this.hora = from.hora;
@@ -28,7 +29,22 @@ export class CadastroAulas {
       data: "25/03",
       diaSemana: "segunda-feira",
       numAlocados: 0,
-      monitores: [],
+      monitores: [
+        {
+          nome: "Daniel",
+          disponibilidade: [true,false,true,false,false],
+          restricoes: [
+            "23/03",
+            "25/07"
+          ],
+          alocacoes: 1,
+          chefe: true,
+          clean: clean,
+          copyFrom: new Monitor().copyFrom,
+          copyDisponibilidade: new Monitor().copyDisponibilidade,
+          copyRestricoes: new Monitor().copyRestricoes
+        }
+      ],
       soChefe: false,
       clean: clean,
       copyFrom: copyFrom

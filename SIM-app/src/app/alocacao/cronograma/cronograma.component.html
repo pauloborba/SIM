@@ -23,8 +23,8 @@
         <td name="data">{{a.data}}</td>
         <td name="dia">{{a.diaSemana}}</td>
         <td name="monitoresNecessarios">{{a.numAlocados}}</td>
-        <td *ngFor="let m of a.monitores" name="monitoresAlocados">{{m.nome}} </td>
-        <td *ngIf="a.monitores.length == 0">-</td>
+        <td *ngIf="a.monitores.length > 0"><p *ngFor="let m of a.monitores" name="monitoresAlocados">{{m.nome}}</p></td>
+        <td *ngIf="a.monitores.length == 0" name="monitoresAlocados">-</td>
         <td name="chefe">{{a.soChefe}}</td>
     </tr>
 </table>
