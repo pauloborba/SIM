@@ -61,7 +61,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.buttonText('Alteracao')).click();
         await $("input[name='buscadia']").sendKeys(<string> day);
         await element(by.buttonText('Buscar Aula')).click();
-        await $("input[name='monitoresAlocados']").sendKeys(", "+<string>name);
+        await $("input[name='monitoresAlocados']").sendKeys(<string>name);
         await element(by.buttonText('Confirmar')).click();
     })
     When(/^Eu tento alterar o número de monitores da aula "([^\"]*)" para "([^\"]*)"$/, async (day,number) => {
