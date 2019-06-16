@@ -25,10 +25,6 @@ export class CadastroSubmissao {
       z.aluno="Erica";
       z.code="";
       this.submissoes.push(z);
-
-      console.log(this.submissoes[0].aluno)
-      console.log(this.submissoes[1].aluno)
-      console.log(this.submissoes[2].aluno)
       
     }
 

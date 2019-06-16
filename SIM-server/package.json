@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jasmine --config=./spec/support/jasmine.json",
     "tsc": "tsc",
-    "start": "npm run tsc && node sim-server.js"
+    "start": "npm run tsc && node typeScript/SIM-server/sim-server.js"
   },
   "author": "Rodrigo Albuquerque",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "nodemailer": "^6.1.1"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.8.9",
+    "@types/jasmine": "^2.8.16",
     "@types/request-promise": "^4.1.38",
     "jasmine": "^2.8.0",
     "jasmine-promises": "^0.4.1",
