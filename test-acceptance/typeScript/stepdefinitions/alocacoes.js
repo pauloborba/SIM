@@ -27,7 +27,7 @@ cucumber_1.defineSupportCode(function ({ Given, When, Then }) {
     Given(/^estou na página "([^\"]*)"$/, (pagina) => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.browser.get("http://localhost:4200/");
         yield expect(protractor_1.browser.getTitle()).to.eventually.equal('SIMApp');
-        yield protractor_1.$("a[name='alocacao']").click();
+        yield protractor_1.$("a[name='" + pagina + "']").click();
     }));
     Given(/^estou no menu de "([^\"]*)"$/, (menu) => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.$("button[name='" + menu + "']").click();
@@ -106,7 +106,7 @@ cucumber_1.defineSupportCode(function ({ Given, When, Then }) {
         yield protractor_1.$("button[name='buscar']").click();
     }));
     When(/^marco a opção "([^\"]*)"$/, (op) => __awaiter(this, void 0, void 0, function* () {
-        yield protractor_1.$("input[name='chefe']").sendKeys("true");
+        yield protractor_1.$("input[name='chefe']").click();
         yield protractor_1.$("button[name='confirmar']").click();
     }));
 });

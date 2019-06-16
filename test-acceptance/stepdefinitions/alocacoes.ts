@@ -22,7 +22,7 @@ defineSupportCode(function ({ Given, When, Then }){
     Given(/^estou na página "([^\"]*)"$/, async(pagina)=> {
         await browser.get("http://localhost:4200/");
         await expect(browser.getTitle()).to.eventually.equal('SIMApp');
-        await $("a[name='alocacao']").click();
+        await $("a[name='"+pagina+"']").click();
         
     })
     Given(/^estou no menu de "([^\"]*)"$/, async (menu) => {
@@ -121,7 +121,6 @@ defineSupportCode(function ({ Given, When, Then }){
         await $("input[name='chefe']").click();
         await $("button[name='confirmar']").click();
     });
-    
    
     
 });
