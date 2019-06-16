@@ -9,7 +9,7 @@ let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
 let sameSome = ((elem, param, tagName) => elem.element(by.name(tagName)).getText().then(text => text === param));
 
 defineSupportCode(function ({ Given, When, Then }) {
-    Given(/^estou na página de "([^\"]*)"$/, async (nome) => {
+    Given(/^estou na página "([^\"]*)"$/, async (nome) => {
         await browser.get("http://localhost:4200/");
         await expect(browser.getTitle()).to.eventually.equal(nome);
     })
@@ -50,10 +50,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     Given(/^o monitor "([^\"]*)" não está disponível$/, async (nome) => {
         await $("a[name='alocacao']").click();
         await $("button[name='disponibilidade']").click();
-        var monitores : ElementArrayFinder = element.all(by.repeater('let m of monitores'));
+
+        var monitores : ElementArrayFinder = element.all(by.name('monitoresList'));
         await monitores;
-        var monitor = monitores.filter(element => element.column('m.nome') === nome);
-        await monitor;
+        var monitor = monitores.filter(elem => sameName(elem, nome));
         await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
     });
 
@@ -91,11 +91,22 @@ defineSupportCode(function ({ Given, When, Then }) {
         await $("button[name='definirPadrao']").click();
     })
 
-    When(/^eu preencho o campo de disponibilidades com "([^\"]*)" o campo de nome "([^\"]*)", restrições de data "([^\"]*)", campo é chefe "([^\"]*)" e submeto ao sistema$/, async (dia, nome, restricoes, chefe) => {
+    When(/^eu cadastro o monitor com o campo de disponibilidades com "([^\"]*)" o campo de nome "([^\"]*)", restrições de data "([^\"]*)", campo é chefe "([^\"]*)"$/, async (dia, nome, restricoes, chefe) => {
         await $("a[name='alocacao']").click();
         await $("button[name='formulario']").click();
         await $("input[name='nomeMonitor']").sendKeys(<string> nome);
-        await $("input[name='disponibilidadeDias']").sendKeys(<string> dia);
+        var disponibilidades : string[] = [];
+        dia = dia.toString();
+        if (dia != "") {
+            if(dia.indexOf(" ") < 0) {
+                disponibilidades.push(dia);
+            } else {
+                disponibilidades = dia.split(" ");
+            }
+        }
+        for(var i = 0; i < disponibilidades.length; i++) {
+            await $("input[name='" + disponibilidades[i] + "']").click();
+        }
         await $("input[name='restricoes']").sendKeys(<string> restricoes);
         if (<string> chefe == "Sim") {
             await $("input[name='chefe']").click();
@@ -162,5 +173,35 @@ defineSupportCode(function ({ Given, When, Then }) {
         var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.tipo') === tipo);
         await aula;
         await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    })
+
+    Then(/^o monitor "([^\"]*)" está marcado como chefe$/, async (nome) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='disponibilidade']").click();
+
+        var monitores : ElementArrayFinder = element.all(by.name('monitoresList'));
+        await monitores;
+        var monitor = monitores.filter(elem => pAND(sameName(elem, nome), sameSome(elem,"true", "chefe")));
+        await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    })
+
+    Then(/^o monitor "([^\"]*)" nao está marcado como chefe$/, async (nome) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='disponibilidade']").click();
+
+        var monitores : ElementArrayFinder = element.all(by.name('monitoresList'));
+        await monitores;
+        var monitor = monitores.filter(elem => pAND(sameName(elem, nome), sameSome(elem,"false", "chefe")));
+        await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    })
+    
+    Then(/^o monitor "([^\"]*)" possui o campo restrições igual a "([^\"]*)"$/, async (nome, restricoes) => {
+        await $("a[name='alocacao']").click();
+        await $("button[name='disponibilidade']").click();
+
+        var monitores : ElementArrayFinder = element.all(by.name('monitoresList'));
+        await monitores;
+        var monitor = monitores.filter(elem => pAND(sameName(elem, nome), sameSome(elem, restricoes, "restricoes")));
+        await monitor.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     })
 })

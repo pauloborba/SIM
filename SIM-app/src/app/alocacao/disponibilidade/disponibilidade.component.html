@@ -20,8 +20,8 @@
             <td name="quarta-feira">{{m.disponibilidade[2]}}</td>
             <td name="quinta-feira">{{m.disponibilidade[3]}}</td>
             <td name="sexta-feira">{{m.disponibilidade[4]}}</td>
-            <td *ngIf="m.restricoes.length > 0" name="restricoes" ><p *ngFor="let r of m.restricoes">{{r}} </p></td>
-            <td *ngIf="m.restricoes.length == 0">-</td>
+            <td *ngIf="m.restricoes.length > 0" name="restricoes" >{{m.restricoes.toString()}}</td>
+            <td *ngIf="m.restricoes.length == 0" name="restricoes">-</td>
             <td name="alocacoes">{{m.alocacoes}}</td>
             <td name="chefe">{{m.chefe}}</td>
         </tr>

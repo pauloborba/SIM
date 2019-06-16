@@ -2,8 +2,9 @@ import { CadastroMonitores } from '../cadastromonitores';
 import { Monitor } from '../../SIM-app/src/app/alocacao/monitor';
 import 'jasmine';
 
-describe("O cadastro de alunos", () => {
+describe("O cadastro de monitores", () => {
   var cadastro: CadastroMonitores;
+  var disponibilidade = [false,true,false,true,false];
 
   beforeEach(() => cadastro = new CadastroMonitores())
 
@@ -22,9 +23,11 @@ describe("O cadastro de alunos", () => {
 
     expect(cadastro.getMonitores().length).toBe(1);
     monitor = cadastro.getMonitores()[0];
-    expect(monitor.nome).toBe("Mariana");
-    expect(monitor.disponibilidade).toBe([false,true,false,true,false]);
-    expect(monitor.restricoes).toBe([]);
+    expect(monitor.nome).toBe("Daniel");
+    for(var i = 0; i < monitor.disponibilidade.length; i++) {
+      expect(monitor.disponibilidade[i]).toBe(disponibilidade[i]);
+    }
+    expect(monitor.restricoes.length).toBe(0);
     expect(monitor.alocacoes).toBe(0);
     expect(monitor.chefe).toBe(true);
   })
