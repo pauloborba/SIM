@@ -36,16 +36,6 @@ defineSupportCode(function ({ Given, When, Then }) {
         var alocado = findmonitor.filter(element => (element.getText()).then(e => e === nome));
         await alocado.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     });
-
-    Given(/^posso ver o valor "(\d*)" para monitores na aula do dia "([^\"]*)" do tipo "([^\"]*)"$/, async (numMonitores, data, tipo) => {
-        await $("a[name='alocacao']").click();
-        await $("button[name='cronograma']").click();
-        var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
-        await aulas;
-        var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.tipo') === tipo && element.column('a.numAlocados') == numMonitores);
-        await aula;
-        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
-    });
     
     Given(/^o monitor "([^\"]*)" não está disponível$/, async (nome) => {
         await $("a[name='alocacao']").click();
@@ -154,16 +144,6 @@ defineSupportCode(function ({ Given, When, Then }) {
         await findmonitor;
         var alocado = findmonitor.filter(element => (element.getText()).then(e => e === nome));
         await alocado.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
-    })
-
-    Then(/^eu vejo a aula do dia "([^\"]*)" com o valor "([^\"]*)" para monitores$/, async (data, numMonitores) => {
-        await $("a[name='alocacao']").click();
-        await $("button[name='cronograma']").click();
-        var aulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
-        await aulas;
-        var aula = aulas.filter(element => element.column('a.data') === data && element.column('a.numAlocados') === numMonitores);
-        await aula;
-        await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     })
 
     Then(/^o monitor "([^\"]*)" está marcado como chefe$/, async (nome) => {
