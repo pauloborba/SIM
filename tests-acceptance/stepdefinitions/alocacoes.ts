@@ -81,19 +81,21 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.buttonText('Alteracao')).click();
         await $("input[name='buscadia']").sendKeys(<string> day);
         await element(by.buttonText('Buscar Aula')).click();
-        await $("input[name='monitoresNecessarios']").clear; 
+        await $("input[name='monitoresNecessarios']").clear(); 
         await $("input[name='monitoresNecessarios']").sendKeys(<string> number);
         await element(by.buttonText('Confirmar')).click();
     })
     Then(/^O número mínimo de monitores da aula "([^\"]*)" é alterado para "([^\"]*)"$/, async (day, number) => {
-        await element(by.buttonText('Alteracao')).click();
-        await $("input[name='buscadia']").sendKeys(<string> day);
-        await element(by.buttonText('Buscar Aula')).click();
-        var aulas : ElementArrayFinder = element.all(by.name('a.monitoresNecessarios'));
+        await $("a[name='alocacao']").click();
+        await $("button[name='cronograma']").click();
+        var aulas : ElementArrayFinder = element.all(by.name('cronogramaTabela'));
         await aulas;
-        var aula = aulas.filter(element => element.column('a.monitoresNecessarios') === number);
-        await aula;
+        var aula = aulas.filter(elem => sameSome(elem, day, 'data'));
         await aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        var findmin = aula.all(by.name('monitoresNecessarios'));
+        await findmin;
+        var min = findmin.filter(element => (element.getText()).then(e => e === number));
+        await min.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     })
     Then(/^O monitor "([^\"]*)" aparece alocado na aula "([^\"]*)"$/, async (name, day) => {
         await $("a[name='alocacao']").click();
