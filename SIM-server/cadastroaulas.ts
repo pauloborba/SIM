@@ -20,6 +20,16 @@ export class CadastroAulas {
       monitores: [],
       soChefe: false,
       clean: undefined
+    },
+    {
+      hora: "08:00",
+      tipo: "Acompanhamento",
+      data: "29/03",
+      diaSemana: "sexta-feira",
+      numAlocados: 4,
+      monitores: [],
+      soChefe: false,
+      clean: undefined
     }
   ];
 
