@@ -19,6 +19,7 @@ export class AlteracaoComponent implements OnInit {
   data: string;
   diaSelect: Aula;
   monitoresAlocados: string;
+  erroAloc:boolean = false;
 
   ngOnInit() {
     this.aulaService.getAulas()
@@ -87,20 +88,25 @@ export class AlteracaoComponent implements OnInit {
   }
   alocarMonitores(){
     this.diaSelect.monitores = this.getMonitores();
-    this.aulaService.atualizar(this.diaSelect)
-    .then(as => {
-      if(as) {
-        console.log(as);
-        this.diaSelect = undefined;
-        this.monitoresAlocados = undefined;
-        this.data = "";
-        for(var i = 0; i < this.aulas.length; i++) {
-          if (this.aulas[i].data == as.data) {
-            this.aulas[i] = as;
+    if(this.diaSelect.monitores.length < this.diaSelect.numAlocados){
+      this.erroAloc = true;
+    }else{
+      this.aulaService.atualizar(this.diaSelect)
+      .then(as => {
+        if(as) {
+          console.log(as);
+          this.diaSelect = undefined;
+          this.monitoresAlocados = undefined;
+          this.data = "";
+          this.erroAloc = false;
+          for(var i = 0; i < this.aulas.length; i++) {
+            if (this.aulas[i].data == as.data) {
+              this.aulas[i] = as;
+            }
           }
         }
-      }
-    })
-    .catch(erro => alert(erro));
+      })
+      .catch(erro => alert(erro));
+    }
   }
 }

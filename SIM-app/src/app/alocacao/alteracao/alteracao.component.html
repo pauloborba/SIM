@@ -1,5 +1,5 @@
 <input name ='buscadia' [(ngModel)]="data"><button name = 'buscar' (click)="buscar()">Buscar Aula</button>
-
+<h5 name = "mensagem" *ngIf = "erroAloc">Quantidade insuficiente de monitores</h5>
 <table *ngIf="diaSelect != undefined">
     <tr style="width:100%">
         <th>Horário</th>
