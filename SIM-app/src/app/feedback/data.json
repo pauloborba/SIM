@@ -1,0 +1,24 @@
+{
+    "monitores": [{
+        "name":"Daniel",
+        "toJudge":3,
+        "status":""
+    },
+    {
+     "name":"Carlos",
+     "toJudge":1,
+     "status":""
+     },
+     {
+      "name":"Andre",
+      "toJudge":5,
+      "status":""
+      },
+     {
+      "name":"Valeria",
+      "toJudge":0,
+      "status":""
+      }  
+    ]
+    
+ }

@@ -1,3 +1,19 @@
-<p>
-  correcao works!
-</p>
+<html (mousemove)="onMove()">
+<table>
+<tr>
+   <th>Nome</th>
+   <th>Login</th>
+   <th *ngFor="let criterio of criteriosPossiveis;">{{criterio}}</th>
+</tr>
+	<tr *ngFor="let aluno of alunos;">
+	   <td>{{aluno.nome}}</td>
+	   <td>{{aluno.login}}</td>
+	<td *ngFor="let criterio of criteriosPossiveis;">
+	<input [(ngModel)]="aluno.criterios[criterio]"></td>
+	<td><button (click)="atualizarAluno(aluno)">Adicionar</button></td>
+</tr>
+	<td *ngIf="temConceitosErrados">
+	Erro: Existem critérios com nota menor que 0 ou maior que 10
+   </td>
+</table>
+</html>

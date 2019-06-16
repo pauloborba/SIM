@@ -1,0 +1,33 @@
+<html (mousemove)="onMove()">
+
+<table>
+<h1>Submissões</h1>
+<tr *ngIf="submissoes.length == 0">
+   <th>não há Submissões pendentes</th>
+   
+</tr>
+<tr *ngFor="let a of submissoes" name = "sublist">
+   <td name = "subnomelist">{{a.nomeSub}}</td>
+   <td name = "nomelist">{{a.aluno}}</td>
+   <button name = "avaliar" (click)="mostrarSubmissao(a)">Avaliação</button>
+</tr>
+
+</table>
+
+<table *ngIf="count == 1">
+    <h1 name = "sub" >{{submissao.aluno}}, {{submissao.nomeSub}}</h1>
+    <pre>
+      {{submissao.code}}
+      {{submissao.code1}}
+      {{submissao.code2}}
+      {{submissao.code3}} 
+    </pre>
+    <input name = "nota" [(ngModel)]="nota"><br>
+    <button name = "Avaliar" (click)="avaliarSubmissao(submissao)">Avaliar</button>
+  </table>
+  
+  <table *ngIf="count != 1 && start">
+    <h2 name = 'message'>O feedback da {{submissao.nomeSub}} com nota {{nota}} foi enviado para o email de {{submissao.aluno}}</h2>
+  </table>
+
+</html>

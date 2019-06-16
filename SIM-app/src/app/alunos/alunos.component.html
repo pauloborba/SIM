@@ -1,0 +1,30 @@
+<html (mousemove)="onMove()">
+
+<table>
+<tr>
+   <td><label>Nome </label></td>
+   <td><input name="nomeAluno" [(ngModel)]="aluno.nome" ></td>
+   <td   name = 'adicionar'><button  (click)="criarAluno(aluno)">Adicionar</button></td>
+</tr>
+<tr>
+   <td><label>Login </label></td>
+   <td><input name="loginAluno" [(ngModel)]="aluno.login" ></td>
+   <td name= "erro" *ngIf="loginDuplicado">
+     Login invalido
+   </td>
+</tr>
+</table>
+
+<table>
+<tr *ngIf="alunos.length > 0">
+   <th>Nome</th>
+   <th>Login</th>
+</tr>
+<tr *ngFor="let a of alunos" name = "alunos">
+   <td name = "nomelist">{{a.nome}}</td>
+   <td>{{a.login}}</td>
+   <td><button (click)="deletarAluno(a)">Remover</button></td>
+</tr>
+</table>
+
+</html>
