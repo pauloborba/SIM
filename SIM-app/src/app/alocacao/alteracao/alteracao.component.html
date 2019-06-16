@@ -1,0 +1,53 @@
+<input name ='buscadia' [(ngModel)]="data"><button name = 'buscar' (click)="buscar()">Buscar Aula</button>
+
+<table *ngIf="diaSelect != undefined">
+    <tr style="width:100%">
+        <th>Horário</th>
+        <th>Tipo</th>
+        <th>Data</th>
+        <th>Dia da Semana</th>
+        <th>Monitores necessários</th>
+        <th>Monitores alocados</th>
+        <th>Monitor Chefe/<th>
+    </tr>
+    <tr>
+        <td><input name="horario" [(ngModel)]="diaSelect.hora"></td>
+        <td><input name="tipo" [(ngModel)]="diaSelect.tipo"></td>
+        <td><input name="data" [(ngModel)]="diaSelect.data"></td>
+        <td><input name="dia" [(ngModel)]="diaSelect.diaSemana"></td>
+        <td><input name="monitoresNecessarios" [(ngModel)]="diaSelect.numAlocados"></td>
+        <td *ngIf="diaSelect.monitores.length > 0" ><input name="monitoresAlocados" [(ngModel)]="monitoresAlocados"></td>
+        <td *ngIf="diaSelect.monitores.length == 0"><input name="monitoresAlocados" [(ngModel)]="monitoresAlocados"></td>
+        <td><input name="chefe" type="checkbox" [(ngModel)]="diaSelect.soChefe"></td> 
+    </tr>
+    <tr><button name="confirmar" (click)="atualizarAula()">Confirmar</button></tr>
+</table>
+<h5 name='mensagem' *ngIf ="erroAloc">voce nao pode alocar este monitor</h5>
+<input name="nomeMonitor"><button name="buscarMonitor">Buscar Monitor</button>
+<table *ngIf="monitorSelect != undefined">
+    <tr style="width:100%">
+            <th><label>Nome </label></th>
+            <th><label>Segunda-feira</label></th>
+            <th><label>Terça-feira</label></th>
+            <th><label>Quarta-feira</label></th>
+            <th><label>Quinta-feira</label></th>
+            <th><label>Sexta-feira</label></th>
+            <th><label>Restrições</label></th>
+            <th><label>Alocações</label></th>
+            <th><label>Chefe</label></th>
+    </tr>
+    <tr>
+        <td><input name="nome" value="{{monitorSelect.nome}}"></td>
+        <td><input name="segunda-feira" value="{{monitorSelect.disponibilidade[0]}}"></td>
+        <td><input name="terca-feira" value="{{monitorSelect.disponibilidade[1]}}"></td>
+        <td><input name="quarta-feira" value="{{monitorSelect.disponibilidade[2]}}"></td>
+        <td><input name="quinta-feira" value="{{monitorSelect.disponibilidade[3]}}"></td>
+        <td><input name="sexta-feira" value="{{monitorSelect.disponibilidade[4]}}"></td>
+        <td *ngIf="monitorSelect.restricoes.length > 0"><input *ngFor="let r of monitorSelect.restricoes" name="restricoes" value="{{r}}"></td>
+        <td *ngIf="monitorSelect.restricoes.length == 0"><input name="restricoes" value="-"></td>
+        <td><input name="alocacoes" value="{{monitorSelect.alocacoes}}"></td>
+        <td><input name="chefe" value="{{monitorSelect.chefe}}"></td>
+    </tr>
+    <tr><button name="confirmarMonitor">Confirmar Monitor</button></tr>
+</table>
+

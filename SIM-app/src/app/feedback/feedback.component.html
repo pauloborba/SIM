@@ -1,3 +1,16 @@
 <p>
-  feedback works!
+  <button name = "submissoes" routerLink="/submissoes">Submissões</button>
+  <br>
 </p>
+
+
+<table>
+  <tr *ngFor="let a of monitores" name = "monitoreslist">
+      <td name = "nomelist">{{a.name}}</td>
+      <td name = "sublist" >{{a.sub}}</td>
+      <td name = "statuslist">{{a.status}}</td>
+   </tr>
+</table>
+
+
+
