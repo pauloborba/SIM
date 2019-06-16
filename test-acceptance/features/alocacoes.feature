@@ -15,7 +15,7 @@ Scenario: Cadastro de Aula
 Given estou na página "alocacao"
 And estou no menu de "cronograma"
 And não vejo a aula "segunda-feira" dia "25/03" na lista de "aulas"
-When eu cadastro a aula "segunda-feira" dia "25/03" 
+When eu cadastro a aula "acompanhamento" dia "25/03" hora "8:00" dia da semana "segunda-feira" monitores "Daniel" 
 And submeto ao sistema
 Then vejo a aula "segunda-feira" dia "25/03" com um marcador "tipo de aula" escrito "acompanhamento"
 

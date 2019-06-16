@@ -13,99 +13,104 @@ const protractor_1 = require("protractor");
 let chai = require('chai').use(require('chai-as-promised'));
 let expect = chai.expect;
 let sleep = (ms => new Promise(resolve => setTimeout(resolve, ms)));
-let sameCPF = ((elem, cpf) => elem.element(protractor_1.by.name('cpflist')).getText().then(text => text === cpf));
-let sameName = ((elem, name) => elem.element(protractor_1.by.name('nomelist')).getText().then(text => text === name));
+let sameName = ((elem, nome) => elem.element(protractor_1.by.name('nomelist')).getText().then(text => text === nome));
+let getSeg = ((elem) => elem.element(protractor_1.by.name('segunda-feira')).getText().then(text => text === "true"));
+let getTer = ((elem) => elem.element(protractor_1.by.name('terca-feira')).getText().then(text => text === "true"));
+let getQua = ((elem) => elem.element(protractor_1.by.name('quarta-feira')).getText().then(text => text === "true"));
+let getQui = ((elem) => elem.element(protractor_1.by.name('quinta-feira')).getText().then(text => text === "true"));
+let getSex = ((elem) => elem.element(protractor_1.by.name('sexta-feira')).getText().then(text => text === "true"));
+let haveMon = ((elem, nome) => elem.element(protractor_1.by.name('nomelist')).getText().then(text => text === nome));
 let pAND = ((p, q) => p.then(a => q.then(b => a && b)));
 cucumber_1.defineSupportCode(function ({ Given, When, Then }) {
+    //Primeiro cenário
     Given(/^estou na página "([^\"]*)"$/, (pagina) => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.browser.get("http://localhost:4200/");
         yield expect(protractor_1.browser.getTitle()).to.eventually.equal('SIMApp');
+        yield protractor_1.$("a[name='alocacao']").click();
     }));
     Given(/^estou no menu de "([^\"]*)"$/, (menu) => __awaiter(this, void 0, void 0, function* () {
-        //await $("a[name='"+menu+"']").click();
+        yield protractor_1.$("button[name='" + menu + "']").click();
     }));
     Given(/^o monitor "([^\"]*)" está cadastrado no sistema e disponível para a "([^\"]*)"$/, (nome, dia) => __awaiter(this, void 0, void 0, function* () {
-        /*var allcpfs : ElementArrayFinder = element.all(by.name('datalist'));
-        await allcpfs;
-        var samecpfs = allcpfs.filter(elem =>
-                                      elem.getText().then(text => text === cpf));
-        await samecpfs;
-        await samecpfs.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));*/
+        var find_mon = protractor_1.element.all(protractor_1.by.name('monitoresList'));
+        yield find_mon;
+        if (dia == 'segunda-feira')
+            yield find_mon.filter(e => pAND(sameName(e, nome), getSeg(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        if (dia == 'terca-feira')
+            yield find_mon.filter(e => pAND(sameName(e, nome), getTer(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        if (dia == 'quarta-feira')
+            yield find_mon.filter(e => pAND(sameName(e, nome), getQua(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        if (dia == 'quinta-feira')
+            yield find_mon.filter(e => pAND(sameName(e, nome), getQui(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        if (dia == 'sexta-feira')
+            yield find_mon.filter(e => pAND(sameName(e, nome), getSex(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     }));
     Given(/^o monitor "([^\"]*)" está alocado para a aula "([^\"]*)" dia "([^\"]*)"$/, (nome, dia, data) => __awaiter(this, void 0, void 0, function* () {
-        /*var datas : ElementArrayFinder = element.all(by.name('dataList'));
-        await datas;
-        var mesmodia = datas.filter(elem =>
-                                      elem.getText().then(day => day === data));
-        await mesmodia;
-        await mesmodia.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));*/
+        yield protractor_1.$("button[name='cronograma']").click();
+        var allaulas = protractor_1.element.all(protractor_1.by.repeater('let a of aulas'));
+        yield allaulas;
+        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        yield find_aula;
+        yield find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+        var find_mon = find_aula.all(protractor_1.by.repeater('let m of a.monitores'));
+        yield find_mon;
+        yield find_mon.filter(element => expect(element.getText().then(e => e === nome)));
     }));
     When(/^eu tento alocar o monitor "([^\"]*)" na aula "([^\"]*)" dia "([^\"]*)"$/, (nome, dia, data) => __awaiter(this, void 0, void 0, function* () {
+        yield protractor_1.$("button[name='alteracao']").click();
+        yield protractor_1.$("input[name='buscadia']").sendKeys(data);
+        yield protractor_1.$("button[name='buscar']").click();
+        yield protractor_1.$("input[name='monitoresAlocados']").sendKeys(nome);
+        yield protractor_1.$("button[name='confirmar']").click();
     }));
     Then(/^recebo uma mensagem de erro$/, () => __awaiter(this, void 0, void 0, function* () {
+        yield expect(protractor_1.$("td[name = 'mensagem']").getText().then(e => e == 'voce nao pode alocar este monitor'));
     }));
     Then(/^sou direcionado para o menu de "([^\"]*)"$/, (name) => __awaiter(this, void 0, void 0, function* () {
+        yield protractor_1.$("button[name='cronograma']").click();
+    }));
+    //Segundo cenário
+    Given(/^não vejo a aula "([^\"]*)" dia "([^\"]*)" na lista de "([^\"]*)"$/, (data, dia, lista) => __awaiter(this, void 0, void 0, function* () {
+        var allaulas = protractor_1.element.all(protractor_1.by.name('data'));
+        yield allaulas;
+        var find_aula = allaulas.filter(element => element.getText().then(e => e === data));
+        yield find_aula;
+        yield find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
+    }));
+    When(/^eu cadastro a aula "([^\"]*)" dia "([^\"]*)" hora "([^\"]*)" dia da semana "([^\"]*)" monitores "([^\"]*)"$/, (tipo, data, hora, diaSemana, monitor) => __awaiter(this, void 0, void 0, function* () {
+        yield protractor_1.$("button[name='formulario']").click();
+        yield protractor_1.$("input[name='dataAula']").sendKeys(data);
+        yield protractor_1.$("input[name='tipoAula']").sendKeys(tipo);
+        yield protractor_1.$("input[name='horaAula']").sendKeys(hora);
+        yield protractor_1.$("input[name='monitoresAula']").sendKeys(monitor);
+        yield protractor_1.$("input[name='diaAula']").sendKeys(diaSemana);
+    }));
+    When(/^submeto ao sistema$/, () => __awaiter(this, void 0, void 0, function* () {
+        yield protractor_1.$("button[name='adicionarAula']").click();
+    }));
+    Then(/^vejo a aula "([^\"]*)" dia "([^\"]*)" com um marcador "([^\"]*)" escrito "([^\"]*)"$/, (dia, data, marcador, tipo) => __awaiter(this, void 0, void 0, function* () {
+        yield protractor_1.$("button[name='cronograma']").click();
+        var allaulas = protractor_1.element.all(protractor_1.by.name('data'));
+        yield allaulas;
+        var find_aula = allaulas.filter(element => element.getText().then(e => e === data));
+        yield find_aula;
+        yield find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    }));
+    //Terceiro cenário
+    Given(/^eu vejo a aula "([^\"]*)" dia "([^\"]*)" na lista de "([^\"]*)"$/, (data, dia, lista) => __awaiter(this, void 0, void 0, function* () {
+        var allaulas = protractor_1.element.all(protractor_1.by.repeater('let a of aulas'));
+        yield allaulas;
+        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        yield find_aula;
+        yield find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    }));
+    When(/^eu seleciono a aula "([^\"]*)" dia "([^\"]*)"$/, (dia, data) => __awaiter(this, void 0, void 0, function* () {
+        yield protractor_1.$("button[name='alteracao']").click();
+        yield protractor_1.$("input[name='buscadia']").sendKeys(data);
+        yield protractor_1.$("button[name='buscar']").click();
+    }));
+    When(/^marco a opção "([^\"]*)"$/, (op) => __awaiter(this, void 0, void 0, function* () {
+        yield protractor_1.$("input[name='chefe']").sendKeys("true");
+        yield protractor_1.$("button[name='confirmar']").click();
     }));
 });
-/*defineSupportCode(function ({ Given, When, Then }) {
-    Given(/^estou na página de Alocações$/, async () => {
-        await browser.get("http://localhost:4200/");
-        await expect(browser.getTitle()).to.eventually.equal('SIMApp');
-    })
-
-    Given(/^estou no menu de Disponibilidade de Dias$/, async () => {
-        await $("a[name='dispDias']").click();
-    })
-
-    Given(/^estou no menu de Cronograma$/, async () => {
-        await $("a[name='cronograma']").click();
-    })
-
-    Given(/^o monitor "([^\"]*)" está disponível para "([^\"]*)"$/, async (nome, dia) => {
-        var allcpfs : ElementArrayFinder = element.all(by.name('datalist'));
-        await allcpfs;
-        var samecpfs = allcpfs.filter(elem =>
-                                      elem.getText().then(text => text === cpf));
-        await samecpfs;
-        await samecpfs.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
-    })
-    
-    Given(/^o monitor "([^\"]*)" está alocado para a "([^\"]*)" dia "([^\"]*)"$/, async (nome, dia, data) => {
-        var datas : ElementArrayFinder = element.all(by.name('dataList'));
-        await datas;
-        var mesmodia = datas.filter(elem =>
-                                      elem.getText().then(day => day === data));
-        await mesmodia;
-        await mesmodia.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
-    });
-
-    When(/^eu retiro a disponibilidade de "([^\"]*)" na "([^\"]*)"$/, async (nome, dia) => {
-        var allalunos : ElementArrayFinder = element.all(by.name('alunolist'));
-        var samenamecpf = allalunos.filter(elem => sameCPF(elem,cpf) && sameName(elem, name));
-        await samenamecpf;
-        await samenamecpf.get(0).element(by.name('remover')).click();
-    })
-
-    When(/^submeto para o sistema$/, async (name, cpf, github) => {
-        await $("input[name='namebox']").sendKeys(<string> name);
-        await $("input[name='cpfbox']").sendKeys(<string> cpf);
-        await $("input[name='gitbox']").sendKeys(<string> github);
-        await element(by.buttonText('Adicionar')).click();
-    })
-
-    When(/^eu não vejo mais a disponibilidade de "([^\"]*)" na "([^\"]*)"$/, async (name, cpf) => {
-        await $("input[name='namebox']").sendKeys(<string> name);
-        await $("input[name='cpfbox']").sendKeys(<string> cpf);
-        await element(by.buttonText('Adicionar')).click();
-    });
-
-    Then(/^o monitor "([^\"]*)" não está mais alocado na "([^\"]*)" dia "([^\"]*)"$/, async (name, cpf) => {
-        var allalunos : ElementArrayFinder = element.all(by.name('alunolist'));
-        allalunos.filter(elem => pAND(sameCPF(elem,cpf),sameName(elem,name))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
-    })
-    
-    Then(/^o monitor "([^\"]*)" passa a estar alocado na "([^\"]*)" dia "([^\"]*)"$/, async (name, cpf) => {
-        var allalunos : ElementArrayFinder = element.all(by.name('alunolist'));
-        allalunos.filter(elem => pAND(sameCPF(elem,cpf),sameName(elem,name))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
-    });
-})*/ 

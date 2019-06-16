@@ -1,14 +1,18 @@
 import { defineSupportCode } from 'cucumber';
-import { browser, $, element, ElementArrayFinder, by } from 'protractor';
+import { browser, $, element, ElementArrayFinder, by, WebDriver } from 'protractor';
 import { async } from 'q';
 let chai = require('chai').use(require('chai-as-promised'));
 let expect = chai.expect;
 
 let sleep = (ms => new Promise(resolve => setTimeout(resolve, ms)));
 
-let sameSubName = ((elem, sub) => elem.element(by.name('subnomelist')).getText().then(text => text === sub));
-let sameName = ((elem, name) => elem.element(by.name('nomelist')).getText().then(text => text === name));
-
+let sameName = ((elem, nome) => elem.element(by.name('nomelist')).getText().then(text => text === nome));
+let getSeg = ((elem) => elem.element(by.name('segunda-feira')).getText().then(text => text === "true"));
+let getTer = ((elem) => elem.element(by.name('terca-feira')).getText().then(text => text === "true"));
+let getQua = ((elem) => elem.element(by.name('quarta-feira')).getText().then(text => text === "true"));
+let getQui = ((elem) => elem.element(by.name('quinta-feira')).getText().then(text => text === "true"));
+let getSex = ((elem) => elem.element(by.name('sexta-feira')).getText().then(text => text === "true"));
+let haveMon= ((elem, nome) => elem.element(by.name('nomelist')).getText().then(text => text === nome));
 let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
 
 defineSupportCode(function ({ Given, When, Then }){
@@ -25,21 +29,19 @@ defineSupportCode(function ({ Given, When, Then }){
     })
     Given(/^o monitor "([^\"]*)" está cadastrado no sistema e disponível para a "([^\"]*)"$/, async (nome, dia) => {
         
-        var alldays_mon : ElementArrayFinder = element.all(by.repeater('let m of monitores'));
-        await alldays_mon;
-        var find_mon = alldays_mon.filter(element => element.column('m.nome') === nome) 
-        await find_mon;
-        await find_mon.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1)); 
+        var find_mon : ElementArrayFinder = element.all(by.name('monitoresList'));
+        await find_mon
+        
         if(dia == 'segunda-feira')
-        await find_mon.column('m.disponibilidade[0]').getText().then(e => e === "true");
+        await find_mon.filter( e=> pAND(sameName(e, nome),getSeg(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1))
         if(dia == 'terca-feira')
-        await find_mon.column('m.disponibilidade[1]').getText().then(e => e === "true");
+        await find_mon.filter( e=> pAND(sameName(e, nome),getTer(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1))
         if(dia == 'quarta-feira')
-        await find_mon.column('m.disponibilidade[2]').getText().then(e => e === "true");
+        await find_mon.filter( e=> pAND(sameName(e, nome),getQua(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1))
         if(dia == 'quinta-feira')
-        await find_mon.column('m.disponibilidade[3]').getText().then(e => e === "true");
+        await find_mon.filter( e=> pAND(sameName(e, nome),getQui(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1))
         if(dia == 'sexta-feira')
-        await find_mon.column('m.disponibilidade[4]').getText().then(e => e === "true");
+        await find_mon.filter( e=> pAND(sameName(e, nome),getSex(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1))
         
                       
     })
@@ -74,29 +76,33 @@ defineSupportCode(function ({ Given, When, Then }){
     //Segundo cenário
     Given(/^não vejo a aula "([^\"]*)" dia "([^\"]*)" na lista de "([^\"]*)"$/, async(data, dia, lista)=>{
 
-        var allaulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        var allaulas : ElementArrayFinder = element.all(by.name('data'));
         await allaulas;
-        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        var find_aula = allaulas.filter(element => element.getText().then(e => e === data))
         await find_aula;
         await find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
     });
-    When(/^eu cadastro a aula "([^\"]*)" dia "([^\"]*)"$/, async(dia, data)=>{
+    When(/^eu cadastro a aula "([^\"]*)" dia "([^\"]*)" hora "([^\"]*)" dia da semana "([^\"]*)" monitores "([^\"]*)"$/, async(tipo, data,hora, diaSemana, monitor)=>{
         await $("button[name='formulario']").click();
         await $("input[name='dataAula']").sendKeys(<string> data);
-        await $("input[name='diaAula']").sendKeys(<string> dia);
-        await $("input[name='tipoAula']").sendKeys("acompanhamento");
+        await $("input[name='tipoAula']").sendKeys(<string> tipo);
+        await $("input[name='horaAula']").sendKeys(<string> hora);
+        await $("input[name='monitoresAula']").sendKeys(<string> monitor);
+        await $("input[name='diaAula']").sendKeys(<string> diaSemana);
+
     });
     When(/^submeto ao sistema$/, async()=>{
-        await $("button[name='confirmar']").click();
+        await $("button[name='adicionarAula']").click();
+        
     });
     Then(/^vejo a aula "([^\"]*)" dia "([^\"]*)" com um marcador "([^\"]*)" escrito "([^\"]*)"$/,async(dia,data,marcador,tipo)=>{
         await $("button[name='cronograma']").click();
-        var allaulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+        var allaulas : ElementArrayFinder = element.all(by.name('data'));
         await allaulas;
-        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        var find_aula = allaulas.filter(element => element.getText().then(e => e === data))
         await find_aula;
         await find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
-        await find_aula.column('a.tipo').getText().then(e => e === tipo);
+        
     });
 
     //Terceiro cenário
@@ -120,15 +126,7 @@ defineSupportCode(function ({ Given, When, Then }){
         await $("button[name='confirmar']").click();
     });
     
-    Then(/^vejo a aula "([^\"]*)" dia "([^\"]*)" com um marcador "([^\"]*)" escrito "([^\"]*)"$/, async(dia, data, marcador, tipo)=>{
-        await $("button[name='cronograma']").click();
-        var allaulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
-        await allaulas;
-        var find_aula = allaulas.filter(element => element.column('a.data') === data);
-        await find_aula;
-        await find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
-        await find_aula.column('a.tipo').getText().then(e => e === tipo);
-    });
+   
     
 });
 

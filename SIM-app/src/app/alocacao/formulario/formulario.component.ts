@@ -29,7 +29,7 @@ export class FormularioComponent implements OnInit {
         this.aulas.push(ab);
         this.aula = new Aula();
         this.monitoresStr = "";
-        alert("Aula criado com sucesso");
+        //alert("Aula criada com sucesso");
       }
     })
     .catch(erro => alert(erro));
