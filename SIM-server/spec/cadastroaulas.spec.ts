@@ -20,13 +20,14 @@ describe("O cadastro de alunos", () => {
     aula.numAlocados = 0;
     aula.soChefe = false;
     aula.tipo = "Assunto novo";
+    cadastro.criar(aula);
 
     expect(cadastro.getAulas().length).toBe(1);
     aula = cadastro.getAulas()[0];
     expect(aula.data).toBe("27/06");
     expect(aula.diaSemana).toBe("segunda-feira");
     expect(aula.hora).toBe("8:00");
-    expect(aula.monitores).toBe([]);
+    expect(aula.monitores.length).toBe(0);
     expect(aula.numAlocados).toBe(0);
     expect(aula.soChefe).toBe(false);
     expect(aula.tipo).toBe("Assunto novo");

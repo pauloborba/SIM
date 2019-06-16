@@ -1,40 +1,21 @@
 import { Aula } from '../SIM-app/src/app/alocacao/aula';
 export class CadastroAulas {
   aulas: Aula[] = [
-    {
-      hora: "08:00",
-      tipo: "Acompanhamento",
-      data: "25/03",
-      diaSemana: "segunda-feira",
-      numAlocados: 0,
-      monitores: [],
-      soChefe: false,
-      clean: undefined,
-    },
-    {
-      hora: "08:00",
-      tipo: "Acompanhamento",
-      data: "27/03",
-      diaSemana: "quarta-feira",
-      numAlocados: 0,
-      monitores: [],
-      soChefe: false,
-      clean: undefined
-    },
-    {
-      hora: "08:00",
-      tipo: "Acompanhamento",
-      data: "29/03",
-      diaSemana: "sexta-feira",
-      numAlocados: 4,
-      monitores: [],
-      soChefe: false,
-      clean: undefined
-    }
+   
   ];
 
   criar(aula: Aula): Aula {
-    return new Aula();
+    var result = null
+    result = new Aula();
+    result.hora = aula.hora;
+    result.tipo = aula.tipo;
+    result.data = aula.data;
+    result.diaSemana = aula.diaSemana;
+    result.numAlocados = aula.numAlocados;
+    result.monitores = aula.monitores;
+    result.soChefe = aula.soChefe;
+    this.aulas.push(result);
+    return result;
   }
 
   atualizar(aula: Aula) : Aula {
