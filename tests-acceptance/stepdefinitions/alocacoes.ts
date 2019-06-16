@@ -74,6 +74,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.buttonText('Alteracao')).click();
         await $("input[name='buscadia']").sendKeys(<string> day);
         await element(by.buttonText('Buscar Aula')).click();
+        await $("input[name='monitoresAlocados']").clear();
         await $("input[name='monitoresAlocados']").sendKeys(<string>name);
         await element(by.buttonText('Confirmar')).click();
     })
@@ -110,6 +111,6 @@ defineSupportCode(function ({ Given, When, Then }) {
         await alocado.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     })
     Then(/^Aparece uma mensagem de erro$/, async () => {
-        await expect($("td[name = 'mensagem']").getText().then(e=> e == 'Quantidade insuficiente de monitores'));
+        await expect($("h5[name = 'mensagem']").getText().then(e=> e == 'Quantidade insuficiente de monitores'));
     })
 })
