@@ -104,10 +104,10 @@ defineSupportCode(function ({ Given, When, Then }){
     //Terceiro cenário
 
     Given(/^eu vejo a aula "([^\"]*)" dia "([^\"]*)" na lista de "([^\"]*)"$/, async(data, dia, lista)=>{
-
-        var allaulas : ElementArrayFinder = element.all(by.repeater('let a of aulas'));
+  
+        var allaulas : ElementArrayFinder = element.all(by.name('data'));
         await allaulas;
-        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        var find_aula = allaulas.filter(element => element.getText().then(e => e === dia))
         await find_aula;
         await find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     });
@@ -118,7 +118,7 @@ defineSupportCode(function ({ Given, When, Then }){
     });
 
     When(/^marco a opção "([^\"]*)"$/, async(op)=>{
-        await $("input[name='chefe']").sendKeys("true");
+        await $("input[name='chefe']").click();
         await $("button[name='confirmar']").click();
     });
     

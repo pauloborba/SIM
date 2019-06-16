@@ -94,9 +94,9 @@ cucumber_1.defineSupportCode(function ({ Given, When, Then }) {
     }));
     //Terceiro cenário
     Given(/^eu vejo a aula "([^\"]*)" dia "([^\"]*)" na lista de "([^\"]*)"$/, (data, dia, lista) => __awaiter(this, void 0, void 0, function* () {
-        var allaulas = protractor_1.element.all(protractor_1.by.repeater('let a of aulas'));
+        var allaulas = protractor_1.element.all(protractor_1.by.name('data'));
         yield allaulas;
-        var find_aula = allaulas.filter(element => element.column('a.data') === data);
+        var find_aula = allaulas.filter(element => element.getText().then(e => e === dia));
         yield find_aula;
         yield find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     }));
