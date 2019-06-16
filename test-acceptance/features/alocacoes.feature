@@ -25,6 +25,15 @@ When eu retiro a disponibilidade de "Daniel" na "segunda-feira"
 Then eu não vejo mais a disponibilidade de "Daniel" na "segunda-feira"
 And o monitor "Daniel" não está mais alocado na "segunda-feira" dia "25/03"
 
+Scenario: Alteração do tipo de aula
+And estou na página "SIMApp"
+And posso ver o tipo "Assunto Novo" para a aula do dia "25/03" 
+And posso ver o valor "0" para monitores na aula do dia "25/03"
+And o valor padrão para monitores nas aulas é "4"
+When eu altero o campo tipo para "Acompanhamento" da aula do dia "25/03"
+Then posso ver o valor "4" para monitores na aula do dia "25/03"
+And posso ver o tipo "Acompanhamento" para a aula do dia "25/03"
+
 Scenario: Configurar quantidade de monitores padrão para todas as aulas
 Given estou na página "SIMApp"
 And posso ver o valor "0" para monitores na aula do dia "25/03" do tipo "Acompanhamento"
@@ -32,12 +41,3 @@ And posso ver o valor "1" para monitores na aula do dia "24/03" do tipo "Acompan
 When eu defino o valor "4" como padrão de monitores por aula
 Then eu vejo a aula do dia "25/03" com o valor "4" para monitores
 And eu vejo a aula do dia "24/03" com o valor "4" para monitores
-
-Scenario: Alteração do tipo de aula
-And estou na página "SIMApp"
-And posso ver o tipo "Assunto novo" para a aula do dia "25/03" 
-And posso ver o valor "0" para monitores na aula do dia "25/03"
-And o valor padrão para monitores nas aulas é "4"
-When eu altero o campo tipo para "Acompanhamento" da aula do dia "25/03"
-Then eu vejo a aula do dia "25/03" com o valor "4" para monitores
-And eu vejo a aula do dia "25/03" com o tipo "Acompanhamento"

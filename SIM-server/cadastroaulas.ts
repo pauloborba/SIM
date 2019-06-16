@@ -25,7 +25,7 @@ export class CadastroAulas {
   aulas: Aula[] = [
     {
       hora: "08:00",
-      tipo: "Acompanhamento",
+      tipo: "Assunto Novo",
       data: "25/03",
       diaSemana: "segunda-feira",
       numAlocados: 0,
