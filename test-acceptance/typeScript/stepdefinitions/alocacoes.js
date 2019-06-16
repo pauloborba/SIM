@@ -14,12 +14,13 @@ let chai = require('chai').use(require('chai-as-promised'));
 let expect = chai.expect;
 let sleep = (ms => new Promise(resolve => setTimeout(resolve, ms)));
 let sameName = ((elem, nome) => elem.element(protractor_1.by.name('nomelist')).getText().then(text => text === nome));
+let sameDia = ((elem, nome) => elem.element(protractor_1.by.name('dia')).getText().then(text => text === nome));
 let getSeg = ((elem) => elem.element(protractor_1.by.name('segunda-feira')).getText().then(text => text === "true"));
 let getTer = ((elem) => elem.element(protractor_1.by.name('terca-feira')).getText().then(text => text === "true"));
 let getQua = ((elem) => elem.element(protractor_1.by.name('quarta-feira')).getText().then(text => text === "true"));
 let getQui = ((elem) => elem.element(protractor_1.by.name('quinta-feira')).getText().then(text => text === "true"));
 let getSex = ((elem) => elem.element(protractor_1.by.name('sexta-feira')).getText().then(text => text === "true"));
-let haveMon = ((elem, nome) => elem.element(protractor_1.by.name('nomelist')).getText().then(text => text === nome));
+let haveMon = ((elem, nome) => elem.all(protractor_1.by.name('nomelist')).filter(e => e.getText().then(text => text === nome)));
 let pAND = ((p, q) => p.then(a => q.then(b => a && b)));
 cucumber_1.defineSupportCode(function ({ Given, When, Then }) {
     //Primeiro cenário
@@ -31,30 +32,25 @@ cucumber_1.defineSupportCode(function ({ Given, When, Then }) {
     Given(/^estou no menu de "([^\"]*)"$/, (menu) => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.$("button[name='" + menu + "']").click();
     }));
-    Given(/^o monitor "([^\"]*)" está cadastrado no sistema e disponível para a "([^\"]*)"$/, (nome, dia) => __awaiter(this, void 0, void 0, function* () {
+    Given(/^o monitor "([^\"]*)" está cadastrado no sistema e não está disponível para a "([^\"]*)"$/, (nome, dia) => __awaiter(this, void 0, void 0, function* () {
         var find_mon = protractor_1.element.all(protractor_1.by.name('monitoresList'));
         yield find_mon;
         if (dia == 'segunda-feira')
-            yield find_mon.filter(e => pAND(sameName(e, nome), getSeg(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+            yield find_mon.filter(e => pAND(sameName(e, nome), getSeg(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
         if (dia == 'terca-feira')
-            yield find_mon.filter(e => pAND(sameName(e, nome), getTer(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+            yield find_mon.filter(e => pAND(sameName(e, nome), getTer(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
         if (dia == 'quarta-feira')
-            yield find_mon.filter(e => pAND(sameName(e, nome), getQua(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+            yield find_mon.filter(e => pAND(sameName(e, nome), getQua(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
         if (dia == 'quinta-feira')
-            yield find_mon.filter(e => pAND(sameName(e, nome), getQui(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+            yield find_mon.filter(e => pAND(sameName(e, nome), getQui(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
         if (dia == 'sexta-feira')
-            yield find_mon.filter(e => pAND(sameName(e, nome), getSex(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+            yield find_mon.filter(e => pAND(sameName(e, nome), getSex(e))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
     }));
-    Given(/^o monitor "([^\"]*)" está alocado para a aula "([^\"]*)" dia "([^\"]*)"$/, (nome, dia, data) => __awaiter(this, void 0, void 0, function* () {
+    Given(/^o monitor "([^\"]*)" não está alocado para a aula "([^\"]*)" dia "([^\"]*)"$/, (nome, dia, data) => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.$("button[name='cronograma']").click();
-        var allaulas = protractor_1.element.all(protractor_1.by.repeater('let a of aulas'));
+        var allaulas = protractor_1.element.all(protractor_1.by.name('cronogramaTabela'));
         yield allaulas;
-        var find_aula = allaulas.filter(element => element.column('a.data') === data);
-        yield find_aula;
-        yield find_aula.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
-        var find_mon = find_aula.all(protractor_1.by.repeater('let m of a.monitores'));
-        yield find_mon;
-        yield find_mon.filter(element => expect(element.getText().then(e => e === nome)));
+        yield allaulas.filter(e => pAND(sameDia(e, data), haveMon(e, nome))).then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
     }));
     When(/^eu tento alocar o monitor "([^\"]*)" na aula "([^\"]*)" dia "([^\"]*)"$/, (nome, dia, data) => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.$("button[name='alteracao']").click();
@@ -64,7 +60,7 @@ cucumber_1.defineSupportCode(function ({ Given, When, Then }) {
         yield protractor_1.$("button[name='confirmar']").click();
     }));
     Then(/^recebo uma mensagem de erro$/, () => __awaiter(this, void 0, void 0, function* () {
-        yield expect(protractor_1.$("td[name = 'mensagem']").getText().then(e => e == 'voce nao pode alocar este monitor'));
+        yield protractor_1.$("h5[name = 'mensagem']").getText().then(e => e == 'voce nao pode alocar este monitor');
     }));
     Then(/^sou direcionado para o menu de "([^\"]*)"$/, (name) => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.$("button[name='cronograma']").click();

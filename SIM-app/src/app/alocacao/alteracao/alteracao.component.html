@@ -22,7 +22,7 @@
     </tr>
     <tr><button name="confirmar" (click)="atualizarAula()">Confirmar</button></tr>
 </table>
-<h5 name = "mensagem" *ngIf = "erroAloc">voce nao pode alocar este monitor</h5>
+<h5 name='mensagem' *ngIf ="erroAloc">voce nao pode alocar este monitor</h5>
 <input name="nomeMonitor"><button name="buscarMonitor">Buscar Monitor</button>
 <table *ngIf="monitorSelect != undefined">
     <tr style="width:100%">

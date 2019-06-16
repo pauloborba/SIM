@@ -4,11 +4,18 @@ export class CadastroMonitores {
   monitores: Monitor[] = [];
 
   criar(monitor: Monitor): Monitor {
-    return new Monitor();
+    var result = null;
+    if(this.nomeNaoCadastrado(monitor.nome))
+    this.monitores.push(monitor)
+    return monitor
   }
 
   atualizar(monitor: Monitor) : Monitor { 
     return new Monitor(); 
+  }
+
+  nomeNaoCadastrado(nome:string) : boolean{
+    return !this.monitores.find(a => a.nome == nome);
   }
 
   getMonitores() : Monitor[] {
@@ -28,6 +35,9 @@ export class CadastroMonitores {
       chefe: true,
       clean: undefined
     }]
+  }
+  getMonitoresWithoutStub(): Monitor[]{
+    return this.monitores;
   }
 
 }
