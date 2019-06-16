@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeedbackComponent } from './feedback/feedback.component';
-import { SubemissoesComponent } from './submissoes/submissoes.component';
+import { SubmissoesComponent } from './submissoes/submissoes.component';
 import { AlocacaoComponent } from './alocacao/alocacao.component';
 import { CorrecaoComponent } from './correcao/correcao.component';
 import { LoginComponent } from './login/login.component';
@@ -23,7 +23,7 @@ import { SubmissaoService } from './submissoes/submissao.service';
   declarations: [
     AppComponent,
     FeedbackComponent,
-    SubemissoesComponent,
+    SubmissoesComponent,
     AlocacaoComponent,
     CorrecaoComponent,
     LoginComponent,
@@ -56,7 +56,7 @@ import { SubmissaoService } from './submissoes/submissao.service';
       },
       {
         path: 'submissoes',
-        component: SubemissoesComponent
+        component: SubmissoesComponent
       },
       {
         path: 'relatorio',

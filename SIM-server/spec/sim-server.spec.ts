@@ -14,7 +14,7 @@ describe("O servidor", () => {
 
   it("consegue receber as submissões do the huxley", () => {
       return request.get(base_url + "submissoes").then(body => {
-        expect(body).toContain('[{"ID":0,"nomeSub":"Submissão 5","aluno":"Matheus","code":""},{"ID":1,"nomeSub":"Submissão 4","aluno":"Matheus","code":""},{"ID":2,"nomeSub":"Submissão 5","aluno":"Erica","code":""}]');
+        expect(body).toContain('[{"ID":0,"nomeSub":"Submissão 5","aluno":"Matheus","code":"Int x = 2+7","code1":"System.out.println(x)","code2":"","code3":""},{"ID":1,"nomeSub":"Submissão 4","aluno":"Matheus","code":"while(i<3){","code1":"i++","code2":"System.out.println(x)","code3":"}"},{"ID":2,"nomeSub":"Submissão 5","aluno":"Erica","code":"if(x == true)","code1":"x=!x","code2":"}","code3":""}]');
       });
   })
   

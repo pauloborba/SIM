@@ -7,7 +7,7 @@ import { Submissao } from './submissao';
   templateUrl: './submissoes.component.html',
   styleUrls: ['./submissoes.component.css']
 })
-export class SubemissoesComponent implements OnInit {
+export class SubmissoesComponent implements OnInit {
 
   constructor(private submissaoService:SubmissaoService) { }
 

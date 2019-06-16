@@ -1,17 +1,5 @@
 <html (mousemove)="onMove()">
 
-<!--<table>
-<tr>
-    <td><label>Nome </label></td>
-    <td><input [(ngModel)]="submissao.nomeSub" ></td>
-    <td><button (click)="criarAluno(aluno)">Adicionar</button></td>
-</tr>
-<tr>
-    <td><label>Login </label></td>
-    <td><input [(ngModel)]="submissao.aluno" ></td>
-</tr>
-  </table>-->
-
 <table>
 <h1>Submissões</h1>
 <tr *ngIf="submissoes.length == 0">
@@ -29,10 +17,10 @@
 <table *ngIf="count == 1">
     <h1 name = "sub" >{{submissao.aluno}}, {{submissao.nomeSub}}</h1>
     <pre>
-      LALs
-      asdassd
-      sjdfjsd
-      dsfojas
+      {{submissao.code}}
+      {{submissao.code1}}
+      {{submissao.code2}}
+      {{submissao.code3}} 
     </pre>
     <input name = "nota" [(ngModel)]="nota"><br>
     <button name = "Avaliar" (click)="avaliarSubmissao(submissao)">Avaliar</button>

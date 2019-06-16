@@ -1,41 +1,41 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Aluno {
-    constructor() {
+exports.__esModule = true;
+var Aluno = /** @class */ (function () {
+    function Aluno() {
         this.clean();
     }
-    clean() {
+    Aluno.prototype.clean = function () {
         this.nome = "";
         this.login = "";
         this.criterios = new Map();
-    }
-    clone() {
+    };
+    Aluno.prototype.clone = function () {
         var aluno = new Aluno();
         aluno.criterios = new Map();
         aluno.copyFrom(this);
         return aluno;
-    }
-    copyFrom(from) {
+    };
+    Aluno.prototype.copyFrom = function (from) {
         this.nome = from.nome;
         this.login = from.login;
         this.copyCriteriosFrom(from.criterios);
-    }
-    copyCriteriosFrom(from) {
+    };
+    Aluno.prototype.copyCriteriosFrom = function (from) {
         this.criterios = new Map();
-        for (let key in from) {
+        for (var key in from) {
             this.criterios[key] = from[key];
         }
-    }
-    verificaAluno() {
+    };
+    Aluno.prototype.verificaAluno = function () {
         var conceitos = [];
-        for (let key in this.criterios) {
+        for (var key in this.criterios) {
             if (this.criterios[key] <= 0 || this.criterios[key] > 10) {
                 this.criterios[key] = '';
                 conceitos.push(key);
             }
         }
         return conceitos;
-    }
-}
+    };
+    return Aluno;
+}());
 exports.Aluno = Aluno;
-//# sourceMappingURL=aluno.js.map

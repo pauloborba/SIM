@@ -3,6 +3,9 @@ export class Submissao{
     nomeSub: string
     aluno:string
     code: string
+    code1: string
+    code2:string
+    code3:string
 
     constructor() {
         this.clean();
@@ -13,6 +16,9 @@ export class Submissao{
         this.nomeSub = "";
         this.aluno = "";
         this.code = "";
+        this.code1 = "";
+        this.code2 = "";
+        this.code3 = "";
       }
 
       clone(): Submissao {
@@ -26,6 +32,9 @@ export class Submissao{
         this.nomeSub = from.nomeSub;
         this.aluno = from.aluno;
         this.code = from.code;
+        this.code1 = from.code1;
+        this.code2 = from.code2;
+        this.code3 = from.code3;
       }
     
 }

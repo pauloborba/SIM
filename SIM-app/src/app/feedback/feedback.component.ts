@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SubemissoesComponent } from '../submissoes/submissoes.component'
+import { SubmissoesComponent } from '../submissoes/submissoes.component'
 import { SubmissaoService } from '../submissoes/submissao.service';
 import { Submissao } from '../submissoes/submissao';
 import data from './data.json'
