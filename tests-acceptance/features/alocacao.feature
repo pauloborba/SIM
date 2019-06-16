@@ -4,7 +4,7 @@ Feature: As professor
 
 Scenario: Gerar Alocações
 Given Estou na página "SIMApp"
-Given Estou no menu "Cronograma"
+Given Estou no menu "Alteracao"
 Given O monitor "Pedro" está cadastrado e disponível para "segunda-feira"
 Given O monitor "Jorge" está cadastrado e disponível para "quarta-feira"
 Given A aula "25/03" ainda não possui monitores
@@ -29,10 +29,7 @@ Given O monitor "Davi" está cadastrado e disponível para "segunda-feira"
 Given A aula "25/03" ainda não possui monitores
 Given A quantidade mínima de monitores da aula "25/03" é "4"
 When Eu solicito a alocação de monitores
-Then O monitor "Ruy" aparece alocado na aula "25/03"
-Then O monitor "Daniel" aparece alocado na aula "25/03"
-Then O monitor "Davi" aparece alocado na aula "25/03"
-Then No menu "Cronograma" aparece uma mensagem de erro ao lado da aula "25/03"
+Then No menu "Alteracao" aparece uma mensagem de erro ao lado da aula "25/03"
 
 Scenario: Configurar quantidade de monitores em uma aula
 Given Estou na página "SIMApp"
