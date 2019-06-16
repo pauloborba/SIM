@@ -16,7 +16,9 @@ export class CadastroMonitores {
   }
 
   atualizar(monitor: Monitor) : Monitor {
-    return new Monitor();
+    var result : Monitor = this.monitores.find(m => m.nome == monitor.nome);
+    if (result) result.copyFrom(monitor);
+    return result;
   }
 
   getMonitores() : Monitor[] {
