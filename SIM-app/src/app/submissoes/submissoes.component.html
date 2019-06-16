@@ -34,7 +34,7 @@
       sjdfjsd
       dsfojas
     </pre>
-    <input name = "nota" [(ngModel)]="nota">
+    <input name = "notaN" [(ngModel)]="nota">
     <br>
     <button name = "Avaliar" (click)="avaliarSubmissao(submissao)">Avaliar</button>
   </table>
@@ -42,5 +42,20 @@
   <table *ngIf="count != 1 && start">
     <h2 name = "message">O feedback da {{submissao.nomeSub}} com nota {{nota}} foi enviado para o email de {{submissao.aluno}}</h2>
   </table>
-
+  <h1>Submissões Enviadas</h1>
+  <table>
+    <thead>
+      <th>Submissão</th>
+      <th>Aluno</th>
+      <th>Nota</th>
+    </thead>
+    <tr *ngFor="let e of submissoesEnviadas" name = "subenvlist">
+      <td name = "esubnomelist">{{e.nomeSub}}</td>
+      <td name = "enomelist">{{e.aluno}}</td>
+      <td *ngIf = "!editarSub" name = "enota">{{e.nota}}</td>
+      <button *ngIf = "!editarSub" name = "editar" (click) ="editarNota()" >Editar</button>
+      <input *ngIf = "editarSub" name = "nota" [(ngModel)]="e.nota">
+      <button *ngIf = "editarSub" name = "confirmar" (click) ="atualizar(e)" >Confirmar</button>
+    </tr>
+  </table>
 </html>

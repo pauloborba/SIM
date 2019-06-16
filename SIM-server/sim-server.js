@@ -33,6 +33,9 @@ app.get('/criterio', function (req, res) {
 app.get('/submissoes', function (req, res) {
     res.send(cadastroSub.getSubmissoes());
 });
+app.get('/submissoesEnviadas', function (req, res) {
+    res.send(cadastroSub.getsubmissoesEnviadas());
+});
 app.post('/aula', function (req, res) {
     var aula = req.body;
     aula = aulas.criar(aula);

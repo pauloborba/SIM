@@ -42,6 +42,9 @@ app.get('/criterio', function (req, res) {
 app.get('/submissoes', function (req, res) {
   res.send(cadastroSub.getSubmissoes());
 })
+app.get('/submissoesEnviadas',  function (req, res){
+  res.send(cadastroSub.getsubmissoesEnviadas());
+})
 
 
 app.post('/aula', function(req: express.Request, res: express.Response){

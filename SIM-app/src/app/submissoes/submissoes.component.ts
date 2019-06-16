@@ -17,7 +17,8 @@ export class SubemissoesComponent implements OnInit {
   code: number = 0;
   start: boolean =false;
   nota: number;
-
+  submissoesEnviadas : Submissao[] = [];
+  editarSub = false;
   mostrarSubmissao(submissao: Submissao): void {
       this.submissao.copyFrom(submissao);
       this.count = !this.count
@@ -39,11 +40,20 @@ export class SubemissoesComponent implements OnInit {
   onMove(): void {
    this.start = false;
    }
-
+   editarNota(){
+      this.editarSub = true;
+   }
+   atualizar(submissao: Submissao){
+      this.editarSub = false
+   }
   ngOnInit(): void {
      this.submissaoService.getSubmissoes()
          .then(as => this.submissoes = as)
          .catch(erro => alert(erro));
+         
+     this.submissaoService.getEnviadas()
+     .then(as => this.submissoesEnviadas = as)
+     .catch(erro => alert(erro));
    }
 
 }

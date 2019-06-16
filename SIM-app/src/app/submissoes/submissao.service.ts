@@ -24,6 +24,12 @@ export class SubmissaoService {
     
   }
 
+getEnviadas(): Promise<Submissao[]>{
+  return this.http.get(this.simURL + "/submissoesEnviadas")
+  .toPromise()
+  .then(res => res.json() as Submissao[])
+  .catch(this.tratarErro);
+}
 
 
   getSubmissoes(): Promise<Submissao[]> {

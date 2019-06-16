@@ -2,7 +2,7 @@ import { Submissao } from '../SIM-app/src/app/submissoes/submissao';
 
 export class CadastroSubmissao {
     submissoes: Submissao[] = [];
-
+    
     constructor(){
       var x: Submissao = new Submissao();
       var y: Submissao = new Submissao();
@@ -48,7 +48,18 @@ export class CadastroSubmissao {
         } 
         return saida;
       }
-
+      getsubmissoesEnviadas(): Submissao[]{
+        return [{
+          ID: 2,
+          nomeSub: "Submissão 2",
+          aluno: "Maria",
+          code: "Sonim bleine \n sinim clevers",
+          nota: 4,
+          clean: undefined,
+          clone: undefined,
+          copyFrom: undefined
+        }]
+      }
       getSubmissoes(): Submissao[] {
         return this.submissoes;
       }

@@ -3,7 +3,7 @@ export class Submissao{
     nomeSub: string
     aluno:string
     code: string
-
+    nota: number
     constructor() {
         this.clean();
       }
@@ -13,6 +13,7 @@ export class Submissao{
         this.nomeSub = "";
         this.aluno = "";
         this.code = "";
+        this.nota = 0;
       }
 
       clone(): Submissao {
