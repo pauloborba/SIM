@@ -22,7 +22,6 @@ When preencho o campo “nome do aluno” com "Arthur Castro"
 When o campo “logging” com ""
 When Eu adiciono o aluno 
 Then eu vejo uma mensagem de erro 
-And o aluno "Arthur Castro" não é cadastrado
 
 Scenario: Status dos feedbacks de envio dos monitores 
 Given eu estou na tela de “Feedbacks”
