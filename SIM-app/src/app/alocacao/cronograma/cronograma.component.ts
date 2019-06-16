@@ -23,13 +23,17 @@ export class CronogramaComponent implements OnInit {
   }
 
   atualizarPadrao() : void {
-    this.padraoMonitores = this.inputPadrao;
-    this.aulas.forEach(aula => {
-      aula.numAlocados = this.padraoMonitores;
-      this.aulaService.atualizar(aula)
-      .then(a => aula = a)
-      .catch(erro => alert(erro));
-    });
+    this.aulaService.atualizarPadraoMonitor(this.inputPadrao)
+    .then(valor => {
+      this.padraoMonitores = valor;
+      this.aulas.forEach(aula => {
+        aula.numAlocados = this.padraoMonitores;
+        this.aulaService.atualizar(aula)
+        .then(a => aula = a)
+        .catch(erro => alert(erro));
+      });
+    })
+    .catch(erro => alert(erro));
   }
 
 }

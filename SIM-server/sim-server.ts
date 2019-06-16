@@ -74,7 +74,7 @@ app.put('/monitor', function (req: express.Request, res: express.Response) {
 })
 
 app.put('/attPadraoMonitores', function (req: express.Request, res: express.Response) {
-  var padrao: number = <number> req.body;
+  var padrao: number = <number> req.body.num;
   padrao = aulas.atualizarPadraoMonitores(padrao);
   if (padrao) {
     res.send({"success": "O numero padrao foi atualizado com sucesso"});

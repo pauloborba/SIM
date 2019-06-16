@@ -27,7 +27,7 @@ export class AulaService {
   }
 
   atualizarPadraoMonitor(padrao: number): Promise<number> {
-    return this.http.put(this.simURL + "/attPadraoMonitores",JSON.stringify(padrao), {headers: this.headers})
+    return this.http.put(this.simURL + "/attPadraoMonitores",JSON.stringify({"num":padrao}), {headers: this.headers})
          .toPromise()
          .then(res => {
             if (res.json().success) {return padrao;} else {return null;}
