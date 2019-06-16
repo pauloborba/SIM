@@ -12,33 +12,33 @@ export class MonitorService {
 
     constructor(private http: Http) { }
 
-    criar(monitor: Monitor): Promise<Monitor> {
-        return this.http.post(this.simURL + "/monitor",JSON.stringify(monitor), {headers: this.headers})
-               .toPromise()
-               .then(res => {
-                  if (res.json().success) {return monitor;} else {return null;}
-               })
-               .catch(this.tratarErro);
-    }
+	criar(monitor: Monitor): Promise<Monitor> {
+		return this.http.post(this.simURL + "/monitor",JSON.stringify(monitor), {headers: this.headers})
+			.toPromise()
+			.then(res => {
+				if (res.json().success) {return monitor;} else {alert(res.json().failure); return null;}
+			})
+			.catch(this.tratarErro);
+	}
 
-    atualizar(monitor: Monitor): Promise<Monitor> {
-        return this.http.put(this.simURL + "/monitor",JSON.stringify(monitor), {headers: this.headers})
-             .toPromise()
-             .then(res => {
-                if (res.json().success) {return monitor;} else {return null;}
-             })
-             .catch(this.tratarErro);
-    }
+	atualizar(monitor: Monitor): Promise<Monitor> {
+		return this.http.put(this.simURL + "/monitor",JSON.stringify(monitor), {headers: this.headers})
+			.toPromise()
+			.then(res => {
+			if (res.json().success) {return monitor;} else {return null;}
+			})
+			.catch(this.tratarErro);
+	}
 
-    getMonitores(): Promise<Monitor[]> {
-        return this.http.get(this.simURL + "/monitores")
-                 .toPromise()
-                 .then(res => res.json() as Monitor[])
-                 .catch(this.tratarErro);
-    }
+	getMonitores(): Promise<Monitor[]> {
+		return this.http.get(this.simURL + "/monitores")
+			.toPromise()
+			.then(res => res.json() as Monitor[])
+			.catch(this.tratarErro);
+	}
 
-  private tratarErro(erro: any): Promise<any>{
-    console.error('Acesso mal sucedido ao serviço de monitor',erro);
-    return Promise.reject(erro.message || erro);
-}
+	private tratarErro(erro: any): Promise<any>{
+		console.error('Acesso mal sucedido ao serviço de monitor',erro);
+		return Promise.reject(erro.message || erro);
+	}
 }

@@ -16,24 +16,22 @@ defineSupportCode(function ({ Given, When, Then }) {
     Given(/^O monitor "([^\"]*)" está cadastrado e disponível para "([^\"]*)"$/, async (name,day) => {
         await element(by.buttonText('Formulario')).click();
         await $("input[name='nomeMonitor']").sendKeys(<string> name);
-        await $("input[name='disponibilidadeDias']").sendKeys(<string> day);
-        await element(by.buttonText('Adicionar')).click();
-
+        if(day == 'segunda-feira')
+        await $("input[name='segunda-feira']").click();
+        if(day == 'terca-feira')
+        await $("input[name='terca-feira']").click();
+        if(day == 'quarta-feira')
+        await $("input[name='quarta-feira']").click();
+        if(day == 'quinta-feira')
+        await $("input[name='quinta-feira']").click();
+        if(day == 'sexta-feira')
+        await $("input[name='sexts-feira']").click();
+        await element(by.buttonText('Disponibilidade')).click();
         var monitores : ElementArrayFinder = element.all(by.repeater('let m of monitores'));
         await monitores;
         var monitorSelec = monitores.filter(element => element.column('m.nome') === name);
         await monitorSelec;
         await monitorSelec.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
-        if(day == 'segunda-feira')
-        await monitorSelec.column('m.disponibilidade[0]').getText().then(e => e === "true");
-        if(day == 'terca-feira')
-        await monitorSelec.column('m.disponibilidade[1]').getText().then(e => e === "true");
-        if(day == 'quarta-feira')
-        await monitorSelec.column('m.disponibilidade[2]').getText().then(e => e === "true");
-        if(day == 'quinta-feira')
-        await monitorSelec.column('m.disponibilidade[3]').getText().then(e => e === "true");
-        if(day == 'sexta-feira')
-        await monitorSelec.column('m.disponibilidade[4]').getText().then(e => e === "true");
     })
     Given(/^A quantidade mínima de monitores da aula "([^\"]*)" é "([^\"]*)"$/, async (day, number) => {
         await element(by.buttonText('Cronograma')).click();

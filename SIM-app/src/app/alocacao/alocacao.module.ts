@@ -6,12 +6,16 @@ import {CronogramaComponent} from './cronograma/cronograma.component'
 import {DisponibilidadeComponent} from './disponibilidade/disponibilidade.component'
 import {FormularioComponent} from './formulario/formulario.component'
 import {AlteracaoComponent} from './alteracao/alteracao.component'
+import { MonitorService } from './monitor.service';
+import { FormsModule } from "@angular/forms";
+import { AulaService } from './aula.service';
 
 
 @NgModule({
     imports: [
         CommonModule,
-        AlocacaoRoutingModule
+        AlocacaoRoutingModule,
+        FormsModule
     ],
     declarations: [
        AlocacaoComponent,
@@ -19,6 +23,7 @@ import {AlteracaoComponent} from './alteracao/alteracao.component'
        DisponibilidadeComponent,
        FormularioComponent,
        AlteracaoComponent
-    ]
+    ],
+    providers: [MonitorService, AulaService],
 })
 export class AlocacaoModule {}

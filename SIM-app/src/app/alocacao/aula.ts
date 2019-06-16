@@ -1,6 +1,5 @@
 import {Monitor} from './monitor';
 import { AnonymousSubject } from 'rxjs/internal/Subject';
-
 export class Aula {
     hora: string;
     tipo: string;
